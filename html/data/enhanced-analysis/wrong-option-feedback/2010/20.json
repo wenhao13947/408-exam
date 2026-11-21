@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。A 是本题比较集中的错误选项。",
+    "title": "把“显示器术语”“性能指标”“存储器类型”与总线标准混淆了",
+    "reason": "PCI、USB、EISA 都可视为总线或接口标准，但 CRT 不是总线标准。CRT 指阴极射线管显示器（Cathode Ray Tube），是显示设备相关术语。",
+    "trap": "不要把“显示器术语”“性能指标”“存储器类型”误判为总线标准，例如 CRT、CPI、RAM、MIPS。"
+  },
+  "B": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。",
+    "title": "把“显示器术语”“性能指标”“存储器类型”与总线标准混淆了",
+    "reason": "ISA、VESA、EISA 都属于总线标准，但 CPI 不是。CPI 表示每条指令平均时钟周期数（Cycles Per Instruction），是 CPU 性能指标。",
+    "trap": "不要把“显示器术语”“性能指标”“存储器类型”误判为总线标准，例如 CRT、CPI、RAM、MIPS。"
+  },
+  "C": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。",
+    "title": "把“显示器术语”“性能指标”“存储器类型”与总线标准混淆了",
+    "reason": "ISA 是总线标准；SCSI 常作为接口/总线相关标准看待，但本项中的 RAM 和 MIPS 明显不是总线标准，因此整项错误。 RAM：随机存取存储器（Random Access Memory），是存储器类型。 MIPS：每秒执行百万条指令数（Million Instructions Per Second），是性能指标。",
+    "trap": "不要把“显示器术语”“性能指标”“存储器类型”误判为总线标准，例如 CRT、CPI、RAM、MIPS。"
+  }
+}

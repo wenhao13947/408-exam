@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2016-第40题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>题目问的是域名服务器 201.1.1.1 在完成解析过程中可能发出的 DNS 查询次数。201.1.1.1 本身就是主机配置的本地域名服务器，因此不能再把“查询本地域名服务器”算作它向外发出的查询。</p><p>最少情况下：201.1.1.1 已缓存 www.abc.xyz.com 的解析结果，不需要再向其他域名服务器查询，次数为 0。</p><p>最多情况下：201.1.1.1 无缓存，并采用迭代查询，需要依次向根域名服务器、.com 顶级域名服务器、xyz.com 权限域名服务器、abc.xyz.com 权限域名服务器发出查询，共 4 次。</p><p>因此最少和最多次数分别为 0、4，答案选 C。</p></div></div>
+
+
+</body>
+</html>

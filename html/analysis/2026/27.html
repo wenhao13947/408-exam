@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第27题-解析</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="content"><div class="analysis-content">
+<p><strong>【解析】</strong><br/>进程 P 和 Q 并发执行时，为避免读写或写写冲突，必须同时满足 Bernstein 条件：</p>
+<ol>
+<li>W(P) ∩ W(Q) = ∅，两进程不能写同一数据；</li>
+<li>R(P) ∩ W(Q) = ∅，P 不能读取 Q 同时写入的数据；</li>
+<li>W(P) ∩ R(Q) = ∅，Q 不能读取 P 同时写入的数据。</li>
+</ol>
+<p>两进程同时读取同一数据不会造成读写冲突，因此不要求 R(P) ∩ R(Q) = ∅。对应题目中的 I、II、III 同时成立，选 C。</p>
+</div></div>
+</body>
+</html>

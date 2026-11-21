@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第41题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（1）算法的基本设计思想</p>
+<p>按照在二叉搜索树中查找目标 k 的方法，从根开始沿着某条向下的路径进行查找。若当前结点中的关键字值与 k 相等，则结果只包含一个结点，差值的绝对值为 0；不相等时，结果最多包含两个结点，差值的绝对值大于 0。</p>
+<p>对于不相等的情况，若当前结点中的关键字值大于 k，则结果只可能是当前结点或/及左子树中的结点，此时沿 left 指针继续查找。若当前结点中的关键字值小于 k，则结果只可能是当前结点或/及右子树中的结点，此时沿 right 指针继续查找。直到遇到空指针为止。沿途维护最小差值及对应的结点。</p>
+<p>（2）算法实现</p>
+<pre><code>void searchX(BTree root, int k)
+{
+    BTree p = root, pmin1, pmin2;
+    int min = MAX; // MAX 为能表示的整型最大值
+    if (p == NULL) return;
+    while (p != NULL) {
+        if (p-&gt;data == k) { // 结果只包含一个结点
+            min = 0;
+            printf(&quot;差值绝对值 = %d 结点 = %d\n&quot;, min, p-&gt;data);
+            return;
+        } else if (abs(p-&gt;data - k) &lt; min) { // 出现差值绝对值更小的结点
+            min = abs(p-&gt;data - k);
+            pmin1 = pmin2 = p;
+        } else if (abs(p-&gt;data - k) == min) { // 出现另一个差值绝对值为 min 的结点
+            pmin2 = p;
+        }
+        if (p-&gt;data &gt; k)
+            p = p-&gt;left; // 结果还可能在左子树中
+        else
+            p = p-&gt;right; // 结果还可能在右子树中
+    }
+    if (pmin1-&gt;data != pmin2-&gt;data)
+        printf(&quot;差值绝对值 = %d 结点1 = %d 结点2 = %d\n&quot;, min, pmin1-&gt;data, pmin2-&gt;data);
+    else
+        printf(&quot;差值绝对值 = %d 结点 = %d\n&quot;, min, pmin1-&gt;data);
+    return;
+}</code></pre><p>沿 BST 的一条查找路径查找，时间复杂度 O(h)，额外空间 O(1)。MAX 表示整型最大值，abs 为绝对值函数。</p>
+</div>
+</body>
+</html>

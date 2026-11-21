@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2022-第38题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>时刻 0 发生了超时，门限值 ssthresh 变为拥塞窗口 cwnd 的一半即 8，同时 cwnd
+置为 1，执行 慢开始 算法，cwnd 指数增长，经过 3 个 RTT，增长到 ssthresh 值：之后执行 拥塞避免 算法，cwmd 线性增长，再经过 8 个 RTT，增长到 16，共花费 11 个 RTT，如下表所示。</p><table><thead><tr><th>时刻</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead><tbody><tr><td>拥塞窗口</td><td>1</td><td>2</td><td>4</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td></tr></tbody></table></div></div>
+
+
+</body>
+</html>

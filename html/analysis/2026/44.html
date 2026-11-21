@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第44题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>(1) ①和②都是<strong>多路选择器</strong>，用于从多个输入中选择一路送到输出端。</p><p>(2) ExtOp 至少需要 <strong>2 位</strong>。扩展器至少要区分对 8 位 imm8 的符号扩展、对 8 位 imm8 的零扩展，以及对 12 位 offset 的符号扩展三种情形，因此至少需要 2 位编码。</p><p>(3) 取指周期用 PC 访问主存，并通过 ALU 完成 PC+2，不写通用寄存器。因此：<strong>MARsrc=0，ALUAsrc=0，ALUBsrc=01，RegWr=0</strong>。</p><p>(4) 左移指令执行周期，移位量送入 ALU 的 B 端，运算结果由 ALU 写回 R[rt]。因此：<strong>ALUBsrc=10，RegWsrc=1，RegDst=1，RegWr=1</strong>。</p><p>左移指令的 ExtOp <strong>可以</strong>与 M 型指令取值相同。左移位数 num 取自 IR 的第 7-4 位，而扩展器处理的是 IR 的低 12 位；无论扩展器对低 12 位做符号扩展还是零扩展，num 所在的这 4 位都不受影响。因此左移执行时 ExtOp 取值任意，可以与 M 型相同。</p></div></div>
+
+
+</body>
+</html>

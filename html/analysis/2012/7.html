@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2012-第7题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>从 a 到各顶点的最短路径求解过程如下：</p><table class="table td-initial"><thead><tr><th style="text-align:center">顶点</th><th style="text-align:center">第 1 趟</th><th style="text-align:center">第 2 趟</th><th style="text-align:center">第 3 趟</th><th style="text-align:center">第 4 趟</th><th style="text-align:center">第 5 趟</th></tr></thead><tbody><tr><td style="text-align:center">b</td><td style="text-align:center">(a,b)2</td><td></td><td></td><td></td><td></td></tr><tr><td style="text-align:center">c</td><td style="text-align:center">(a,c)5</td><td style="text-align:center">(a,b,c)3</td><td></td><td></td><td></td></tr><tr><td style="text-align:center">d</td><td style="text-align:center">∞</td><td style="text-align:center">(a,b,d)5</td><td style="text-align:center">(a,b,d)5</td><td style="text-align:center">(a,b,d)5</td><td></td></tr><tr><td style="text-align:center">e</td><td style="text-align:center">∞</td><td style="text-align:center">∞</td><td style="text-align:center">(a,b,c,e)7</td><td style="text-align:center">(a,b,c,e)7</td><td style="text-align:center">(a,b,d,e)6</td></tr><tr><td style="text-align:center">f</td><td style="text-align:center">∞</td><td style="text-align:center">∞</td><td style="text-align:center">(a,b,c,f)4</td><td></td><td></td></tr><tr><td style="text-align:center">集合 S</td><td style="text-align:center">{a,b}</td><td style="text-align:center">{a,b,c}</td><td style="text-align:center">{a,b,c,f}</td><td style="text-align:center">{a,b,c,f,d}</td><td style="text-align:center">{a,b,c,f,d,e}</td></tr></tbody></table><p>因此，后续加入集合 S 的顶点依次为 f、d、e。</p><p>【排除法】对于 A，若下一个顶点为 d，路径 a,b,d 的长度为 5，而路径 a,b,c,f 的长度仅为 4，显然错误；同理可以排除 B。将 f 加入集合 S 后，采用相同方法可以排除 D。</p></div></div>
+
+
+</body>
+</html>

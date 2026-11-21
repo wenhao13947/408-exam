@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2023-第38题-解析</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="content"><div class="analysis-content">
+<p>【答案】A。R2 对主机 H 发往 Internet 的 IP 分组执行 NAT，源 IP 地址应改写为 R2 的外网接口地址。</p>
+<p>原卷图中，R1 在该链路上的接口地址为 <code>195.123.0.34/30</code>。这个 /30 子网的网络地址是 <code>195.123.0.32</code>，广播地址是 <code>195.123.0.35</code>，可分配地址只有 <code>195.123.0.33</code> 和 <code>195.123.0.34</code>。后者已属于 R1，因此 R2 外网接口只能使用 <code>195.123.0.33</code>。分组经 R2 转发后的源 IP 地址为 <code>195.123.0.33</code>，选 A。</p>
+</div></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2011-第32题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><p>有两个并发执行的进程 P1 和 P2，共享初值为 1 的变量 x。P1 对 x 加 1，P2 对 x 减 1。加 1 和减 1 操作的指令序列分别如下所示。</p>
+<pre tabindex="0"><code>P1 // 加 1 操作
+load R1, x // 取 x 到寄存器 R1 中
+inc R1
+store x, R1 // 将 R1 的内容存入 x
+P2 // 减 1 操作
+load R2, x // 取 x 到寄存器 R2 中
+dec R2
+store x, R2 // 将 R2 的内容存入 x
+</code></pre>
+<p>两个操作完成后，x 的值（ ）。</p>
+<div class="option"><span class="opt-label">A.</span><span class="opt-content">可能为 -1 或 3</span></div>
+<div class="option"><span class="opt-label">B.</span><span class="opt-content">只能为 1</span></div>
+<div class="option"><span class="opt-label">C.</span><span class="opt-content">可能为 0、1 或 2</span></div>
+<div class="option"><span class="opt-label">D.</span><span class="opt-content">可能为 -1、0、1 或 2</span></div></div>
+
+
+</body>
+</html>

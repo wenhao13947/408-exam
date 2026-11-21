@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。A 也是本题比较常错的选项。",
+    "title": "没有理解它直接使用 IP 封装",
+    "reason": "TCP、UDP、IP：RIP 不用 TCP，顺序错误。",
+    "trap": "OSPF 容易和 UDP/TCP 混淆，关键是它直接使用 IP 封装。BGP 依赖 TCP，因为它需要可靠传输。"
+  },
+  "B": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。B 也是本题比较常错的选项。",
+    "title": "没有理解它直接使用 IP 封装",
+    "reason": "TCP、IP、UDP：三者对应关系整体错位。",
+    "trap": "OSPF 容易和 UDP/TCP 混淆，关键是它直接使用 IP 封装。BGP 依赖 TCP，因为它需要可靠传输。"
+  },
+  "C": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。C 也是本题比较常错的选项。",
+    "title": "没有理解它直接使用 IP 封装",
+    "reason": "UDP、TCP、IP：OSPF 不是 TCP，BGP 也不是 IP。",
+    "trap": "OSPF 容易和 UDP/TCP 混淆，关键是它直接使用 IP 封装。BGP 依赖 TCP，因为它需要可靠传输。"
+  }
+}

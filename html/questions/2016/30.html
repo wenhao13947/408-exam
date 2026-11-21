@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2016-第30题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><p>进程 P1 和 P2 均包含并发执行的线程，部分伪代码描述如下所示。</p>
+<div class="td-card-group card-group p-0 mb-4"><div class="td-card card border me-4"><div class="card-header code">进程 P1</div><div class="card-body code p-0 m-0"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class="language-c"><code class="language-c" data-lang="C">
+<span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token function">Thread1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+    a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> x <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">Thread2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+    a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> x <span class="token operator">+=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div></div><div class="td-card card border me-4"><div class="card-header code">进程 P2</div><div class="card-body code p-0 m-0"><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class="language-c"><code class="language-c" data-lang="C">
+<span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token function">Thread3</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
+    a <span class="token operator">=</span> x<span class="token punctuation">;</span> x <span class="token operator">+=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">Thread4</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> b<span class="token punctuation">;</span>
+    b <span class="token operator">=</span> x<span class="token punctuation">;</span> x <span class="token operator">+=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div></div></div>
+<p>下列选项中，需要互斥执行的操作是（ ）。</p>
+<div class="option"><span class="opt-label">A.</span><span class="opt-content">a=1 与 a=2</span></div>
+<div class="option"><span class="opt-label">B.</span><span class="opt-content">a=x 与 b=x</span></div>
+<div class="option"><span class="opt-label">C.</span><span class="opt-content">x+=1 与 x+=2</span></div>
+<div class="option"><span class="opt-label">D.</span><span class="opt-content">x+=1 与 x+=3</span></div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2018-第1题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>本题考察 后序表达式求值，调用三次 <code>F()</code> 栈中内容如下表所示：</p><table class="table td-initial"><thead><tr><th>调用次数</th><th>S1 初始状态（栈底 → 栈顶）</th><th>S2 初始状态（栈底 → 栈顶）</th><th>弹出操作数 a, b</th><th>弹出运算符 op</th><th>执行运算 b op a</th><th>运算结果入栈后 S1 状态（栈底 → 栈顶）</th></tr></thead><tbody><tr><td>第一次</td><td>5, 8, 3, 2</td><td>×, −, +</td><td>a=2, b=3</td><td>+</td><td>3 + 2 = 5</td><td>5, 8, 5</td></tr><tr><td>第二次</td><td>5, 8, 5</td><td>×, −</td><td>a=5, b=8</td><td>−</td><td>8 − 5 = 3</td><td>5, 3</td></tr><tr><td>第三次</td><td>5, 3</td><td>×</td><td>a=3, b=5</td><td>×</td><td>5 × 3 = 15</td><td>15</td></tr></tbody></table><p>调用三次 <code>F()</code> 后，S1 的栈顶是 <strong>15</strong>，因此选择 <strong>B</strong>。</p></div></div>
+
+
+</body>
+</html>

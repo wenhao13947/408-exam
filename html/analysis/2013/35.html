@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2013-第35题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>本题考察分组交换的 传输时间计算，不进行分组时，发送一个报文的时延是 8Mb / 10Mbps = 0.8s = 800ms，采用报文交换时，主机甲发送报文需要一次时延，而报文到达路由器进行存储转发又需要一次时延，总时延为 800ms × 2 = 1600ms。进行分组后，发送一个报文的时延是 10kb / 10Mbps = 1ms，一共有 8Mb / 10kb = 800 个分组，主机甲发送 800 个分组需要 1ms × 800 = 800ms 的时延，而路由器接收到第一个分组后直接开始转发，即除了第一个分组，其余分组经过路由器转发不会产生额外的时延，总时延就为 800ms+1ms=801ms。</div></div>
+
+
+</body>
+</html>

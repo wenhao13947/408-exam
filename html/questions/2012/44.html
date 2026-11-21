@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2012-44题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/>
+<style>
+  .instruction-list {
+    width: fit-content;
+    min-width: 360px;
+    margin: 16px auto 18px;
+    border-collapse: collapse;
+    color: inherit;
+    background: transparent;
+  }
+
+  .instruction-list td {
+    padding: 4px 18px;
+    color: inherit;
+    background: transparent;
+    font-size: 16px;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .instruction-list td:first-child {
+    padding-left: 0;
+    padding-right: 28px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .format-table {
+    width: min(100%, 720px);
+    margin: 16px auto 18px;
+    border-collapse: collapse;
+    color: inherit;
+    background: transparent;
+  }
+
+  .format-table caption {
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .format-table th,
+  .format-table td {
+    border: 1px solid currentColor;
+    padding: 6px 10px;
+    text-align: center;
+    vertical-align: middle;
+    color: inherit;
+    background: transparent;
+  }
+
+  .pipeline-wrap {
+    margin: 16px 0 18px;
+    overflow-x: auto;
+  }
+
+  .pipeline-table {
+    border-collapse: collapse;
+    min-width: 920px;
+    color: inherit;
+    background: transparent;
+  }
+
+  .pipeline-table th,
+  .pipeline-table td {
+    border: 1px solid currentColor;
+    min-width: 48px;
+    padding: 8px 6px;
+    text-align: center;
+    vertical-align: middle;
+    color: inherit;
+    background: transparent;
+    font-size: 15px;
+  }
+
+  .pipeline-table th:first-child,
+  .pipeline-table td:first-child {
+    min-width: 66px;
+  }
+</style></head>
+<body>
+<div class="content"><p>某 16 位计算机中，带符号整数用补码表示，数据 Cache 和指令 Cache 分离。下表给出了指令系统中部分指令格式，其中 Rs 和 Rd 表示寄存器，mem 表示存储单元地址，(x) 表示寄存器 x 或存储单元 x 的内容。</p>
+<table class="format-table">
+<caption>指令系统中部分指令格式</caption>
+<thead>
+<tr><th>名称</th><th>指令的汇编格式</th><th>指令功能</th></tr>
+</thead>
+<tbody>
+<tr><td>加法指令</td><td>ADD Rs, Rd</td><td>(Rs) + (Rd) → Rd</td></tr>
+<tr><td>算术/逻辑左移</td><td>SHL Rd</td><td>2 * (Rd) → Rd</td></tr>
+<tr><td>算术右移</td><td>SHR Rd</td><td>(Rd) / 2 → Rd</td></tr>
+<tr><td>取数指令</td><td>LOAD Rd, mem</td><td>(mem) → Rd</td></tr>
+<tr><td>存数指令</td><td>STORE Rs, mem</td><td>(Rs) → mem</td></tr>
+</tbody>
+</table>
+<p>该计算机采用 5 段流水方式执行指令，各流水段分别是取指（IF）、译码/读寄存器（ID）、执行/计算有效地址（EX）、访问存储器（M）和结果写回寄存器（WB），流水线采用“按序发射，按序完成”方式，没有采用转发技术处理数据相关，并且同一个寄存器的读和写操作不能在同一个时钟周期内进行。请回答下列问题：</p>
+<p>(1) 若 int 型变量 x 的值为 -513，存放在寄存器 R1 中，则执行指令“SHR R1”后，R1 的内容是多少（用十六进制表示）？</p>
+<p>(2) 若某一个时间段中，有连续的 4 条指令进入流水线，在其执行过程中没有发生任何阻塞，则执行这 4 条指令所需的时钟周期数为多少？</p>
+<p>(3) 若高级语言程序中某赋值语句为 <code>x=a+b</code>，<code>x</code>、<code>a</code> 和 <code>b</code> 均为 int 型变量，它们的存储单元地址分别表示为 <code>[x]</code>、<code>[a]</code> 和 <code>[b]</code>。该语句对应的指令序列及其在指令流水线中的执行过程如下图所示。则这 4 条指令执行过程中，I<sub>3</sub> 的 ID 段和 I<sub>4</sub> 的 IF 段被阻塞的原因各是什么？</p>
+<table class="instruction-list">
+<tbody>
+<tr>
+<td>I<sub>1</sub></td>
+<td>LOAD</td>
+<td>R1, [a]</td>
+</tr>
+<tr>
+<td>I<sub>2</sub></td>
+<td>LOAD</td>
+<td>R2, [b]</td>
+</tr>
+<tr>
+<td>I<sub>3</sub></td>
+<td>ADD</td>
+<td>R1, R2</td>
+</tr>
+<tr>
+<td>I<sub>4</sub></td>
+<td>STORE</td>
+<td>R2, [x]</td>
+</tr>
+</tbody>
+</table>
+<div class="pipeline-wrap">
+<table class="pipeline-table">
+<thead>
+<tr>
+<th></th>
+<th colspan="14">时间单位</th>
+</tr>
+<tr>
+<th>指令</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>I<sub>1</sub></th>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>M</td>
+<td>WB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>I<sub>2</sub></th>
+<td></td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>M</td>
+<td>WB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>I<sub>3</sub></th>
+<td></td>
+<td></td>
+<td>IF</td>
+<td></td>
+<td></td>
+<td></td>
+<td>ID</td>
+<td>EX</td>
+<td>M</td>
+<td>WB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>I<sub>4</sub></th>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>IF</td>
+<td></td>
+<td></td>
+<td></td>
+<td>ID</td>
+<td>EX</td>
+<td>M</td>
+<td>WB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>(4) 若高级语言程序中某赋值语句为 <code>x=x*2+a</code>，<code>x</code> 和 <code>a</code> 均为 unsigned int 类型变量，它们的存储单元地址分别表示为 <code>[x]</code>、<code>[a]</code>，则执行这条语句至少需要多少个时钟周期？要求模仿题 44 图画出这条语句对应的指令序列及其在流水线中的执行过程示意图。</p></div>
+
+
+</body>
+</html>

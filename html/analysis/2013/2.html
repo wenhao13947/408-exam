@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2013-第2题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>已知入栈序列为 1,2,3,…,n，且第二个出栈元素 p₂=3。判断 p₃ 时，不能把第一个出栈元素 p₁ 限定为 1 或 2。</p><p>第一个出栈元素 p₁ 可能是 1、2 或 4：p₁=1 时先入栈并出栈 1，再入栈 2、3 并出栈 3；p₁=2 时先入栈 1、2 并出栈 2，再入栈 3 并出栈 3；p₁=4 时先入栈 1、2、3、4，先出栈 4，再出栈 3。p₁ 不可能大于 4，否则 4 会挡在 3 的上方，无法让 3 成为第二个出栈元素。</p><p>在 p₂=3 的条件下，p₃ 可以取 1、2，也可以在 3 出栈后继续入栈并立即出栈取 4,5,…,n；只有 3 不可能再次出栈。因此 p₃ 的可能取值为 1,2,4,5,…,n，共 n−1 个，答案为 C。</p></div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第29题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>当用户在目录中新建文件 F 时，文件系统通常会执行以下操作：</p><ul><li>A. 初始化文件 F 的 索引节点：为新文件创建一个索引节点，并初始化相关信息。</li><li>B. 在 目录文件 中写入 F 的索引节点号：在目录中为文件 F 创建一个目录项，该目录项包含文件名和其对应的索引节点号。</li><li>D. 在目录文件中增加一条文件 F 对应的目录项：在目录中增加一个新的目录项来表示新文件 F。</li></ul><p>选项 C 是错误的，因为访问权限信息通常存储在文件的索引节点中，而不是在目录文件中。目录文件只记录文件名及其对应的索引节点号。</p></div></div>
+
+
+</body>
+</html>

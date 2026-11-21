@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2018-第24题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>本题考察 非抢占式优先级调度，由优先权可知，进程的执行顺序为 P2 → P3 → P1。</p><p>P2 的周转时间：1 +15+24= 40μs</p><p>P3 的周转时间：18+1+24+1 +36= 80μs</p><p>P1 的周转时间：30+1+24 +1 +36+1 +12=105μs</p><p>平均周转时间： (40+80+105) /3= 225/3= 75μs, 故选 D。</p></div></div>
+
+
+</body>
+</html>

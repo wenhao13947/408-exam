@@ -1,0 +1,19 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，A、D 都是本题比较常错的选项。",
+    "title": "把 unsigned short 误与 short混淆了",
+    "reason": "65530 的 16 位表示不是 7FFAH，而是 FFFAH。这一项从 x 的原始机器数开始就错了。",
+    "trap": "不要把 unsigned short 误当成 short。本题最关键的不是 65530 本身，而是它的类型是无符号。"
+  },
+  "C": {
+    "title": "把 unsigned short 误与 short混淆了",
+    "reason": "一方面低 16 位 7FFAH 本身不对；另一方面高位补成 FFFF 属于符号扩展思路，和本题“无符号数转换”不符。",
+    "trap": "不要把 unsigned short 误当成 short。本题最关键的不是 65530 本身，而是它的类型是无符号。"
+  },
+  "D": {
+    "crowdHint": "从全网作答情况来看，D、A 都是本题比较常错的选项。",
+    "title": "把 unsigned short 误与 short混淆了",
+    "reason": "低 16 位 FFFAH 虽然对，但高 16 位补 FFFF 是把它当成有符号数进行符号扩展。题目中 x 是 unsigned short，应做零扩展而不是符号扩展。",
+    "trap": "不要把 unsigned short 误当成 short。本题最关键的不是 65530 本身，而是它的类型是无符号。"
+  }
+}

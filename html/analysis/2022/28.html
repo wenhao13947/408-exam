@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2022-第28题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>参考 状态转化。
+进程 P 读文件时，进程从执行态进入阻塞态，等待磁盘 I/O 完成，I 正确。进程 P4
+的时间片用完，导致进程从执行态进入就绪态，转入就绪队列等待下次被调度，Ⅱ错误。进
+程 P 申请外设，若外设是独占设备且正在被其他进程使用，则进程 P 从执行态进入阻塞态，
+等待系统分配外设，Ⅲ 正确。进程 P 执行信号量的 wait() 操作，如果信号量的值小于等于
+0，则进程进入阻塞态，等待其他进程用 signal() 操作唤醒，V 正确。</div></div>
+
+
+</body>
+</html>

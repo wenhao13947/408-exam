@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2021-第45题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><style>
+  .semaphore-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 24px;
+    margin: 18px 0 22px;
+  }
+
+  .semaphore-card {
+    border: 1px solid currentColor;
+    background: transparent;
+  }
+
+  .semaphore-card-title {
+    padding: 10px 16px;
+    font-weight: 700;
+    border-bottom: 1px solid currentColor;
+    background: rgba(127, 127, 127, 0.08);
+    color: inherit;
+  }
+
+  .semaphore-card-body {
+    padding: 18px 18px 20px;
+    background: transparent;
+    color: inherit;
+  }
+
+  .semaphore-card-code {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    line-height: 1.55;
+    color: inherit;
+  }
+
+  .semaphore-card-code + .semaphore-card-code {
+    margin-top: 18px;
+  }
+
+  .semaphore-card-spacer {
+    height: 96px;
+  }
+
+  .semaphore-card-body pre {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    white-space: inherit;
+    font: inherit;
+  }
+
+  @media (max-width: 900px) {
+    .semaphore-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .semaphore-card-body {
+      padding: 14px 14px 16px;
+    }
+
+    .semaphore-card-code {
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .semaphore-card-code + .semaphore-card-code {
+      margin-top: 14px;
+    }
+
+    .semaphore-card-spacer {
+      height: 24px;
+    }
+  }
+</style><p>下表给出了整型信号量 S 的 wait() 和 signal() 操作的功能描述，以及采用开/关中断指令实现信号量操作互斥的两种方法。</p>
+<div class="semaphore-grid">
+  <section class="semaphore-card">
+    <div class="semaphore-card-title">功能描述</div>
+    <div class="semaphore-card-body"><div class="semaphore-card-code"><pre><code>Semaphore S;
+
+wait(S) {
+    while (S &lt;= 0);
+    S = S-1;
+}</code></pre></div><div class="semaphore-card-spacer"></div><div class="semaphore-card-code"><pre><code>signal(S) {
+    S = S+1;
+}</code></pre></div></div>
+  </section>
+  <section class="semaphore-card">
+    <div class="semaphore-card-title">方法 1</div>
+    <div class="semaphore-card-body"><div class="semaphore-card-code"><pre><code>Semaphore S;
+
+wait(S) {
+    关中断；
+    while(S &lt;= 0);
+    S = S-1;
+    开中断；
+}</code></pre></div><div class="semaphore-card-code"><pre><code>signal(S) {
+    关中断；
+    S = S+1;
+    开中断；
+}</code></pre></div></div>
+  </section>
+  <section class="semaphore-card">
+    <div class="semaphore-card-title">方法 2</div>
+    <div class="semaphore-card-body"><div class="semaphore-card-code"><pre><code>Semaphore S;
+
+wait(S) {
+    关中断；
+    while(S &lt;= 0) {
+        开中断；
+        关中断；
+    }
+    S = S-1;
+    开中断；
+}</code></pre></div><div class="semaphore-card-code"><pre><code>signal(S) {
+    关中断；
+    S = S+1;
+    开中断；
+}</code></pre></div></div>
+  </section>
+</div>
+<p>请回答下列问题。</p>
+<p>(1) 为什么在 wait() 和 signal() 操作中对信号量 S 的访问必须互斥执行？</p>
+<p>(2) 分别说明方法 1 和方法 2 是否正确。若不正确，请说明理由。</p>
+<p>(3) 用户程序能否使用开/关中断指令实现临界区互斥？为什么？</p></div>
+
+
+</body>
+</html>

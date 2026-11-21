@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第47题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（1）</p>
+<p>建立 TCP 连接过程需要 3 次握手。C 收到的 SYN=1、ACK=1 的 TCP 段的确认序号 ack_seq=1001。</p>
+<p>（2）</p>
+<p>拥塞窗口增加到 3 MSS=1500 B。发送窗口设置为 2 MSS=1000 B。</p>
+<p>（3）</p>
+<p>释放 TCP 连接过程需要 4 次挥手。C 收到的最后一个 TCP 报文段的 seq=2001，ack_seq=3002，FIN=1。</p>
+<p>（4）</p>
+<p>C 确认 S<sub>i</sub> 已成功接收到文件的时间为 4×5 ms=20 ms。</p><p>TCP 连接建立时 SYN 占用一个序号，故第二次握手对 C 的确认号为 1001。C 的数据从序号 1001 开始，确认号 2001 表示前 1000 B（两个 MSS）已被确认；服务器对每个 TCP 段分别确认，在慢开始过程中，拥塞窗口由 1 MSS 经两次数据确认增加至 3 MSS。发送窗口受接收窗口限制，为 min(1500,1000)=1000 B。</p>
+<p>2000 B 数据的最后一个字节序号为 3000，C 的 FIN 使用序号 3001，服务器对该 FIN 的确认号为 3002；服务器的 SYN 消耗初始序号 2000，所以其 FIN 序号为 2001。</p>
+<p>从 C 请求建立连接开始计时，建立连接耗时 1 RTT；随后 4 个 MSS 按 1、2、1 个段分三轮发送并收到确认，共再需 3 RTT，因此总计 4 RTT=20 ms。</p>
+</div>
+</body>
+</html>

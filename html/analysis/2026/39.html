@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"/><title>2026-第39题-解析</title><link href="../../css/style.css" rel="stylesheet"/></head>
+<body><div class="content"><div class="analysis-content"><p><strong>【解析】</strong></p>
+<p><code>123.4.4.0/22</code> 划分为 32 个规模均等的子网，需要借用 5 位主机位，得到 <code>/27</code>。每个 <code>/27</code> 子网的地址块大小为 32。</p>
+<p>地址 <code>123.4.5.211</code> 所在的最后一个字节区间为 192-223，因此其所在子网为 <code>123.4.5.192/27</code>，选择 C。</p></div></div></body>
+</html>

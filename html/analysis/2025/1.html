@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第1题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>外层循环满足 <code>i * i &lt;= n</code>，因此 <code>i</code> 的取值上界为 √n，外层循环执行 O(√n) 次。</p><p>第 <code>i</code> 轮中，内层循环执行 <code>i</code> 次，所以 <code>count++</code> 的总执行次数为 1+2+…+√n，即 √n×(√n+1)/2，数量级为 n。</p><p>因此该程序段的时间复杂度为 <strong>O(n)</strong>，选 B。</p></div></div>
+
+
+</body>
+</html>

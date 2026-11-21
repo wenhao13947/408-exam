@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第42题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（1）</p>
+<p>不能得到 2,3,1,6,4,7,5,9,8；能得到 2,3,1,5,6,7,4,9,8。</p>
+<p>（2）</p>
+<p>当 Pj &lt; Pk &lt; Pi 时，P1,P2,…,Pn 不是可能的出栈序列。</p>
+<p>（3）</p>
+<p>5 个。</p>
+<p>（4）</p>
+<p>以 1 开头的出栈序列个数为 M；以 2 开头的出栈序列个数为 M；所有出栈序列的个数为 (4k−2)M/(k+1)。</p><p>第一个序列弹出 6 后，栈顶为 5，不能先弹出 4。第二个序列可以按栈操作依次构造。非法序列存在 i&lt;j&lt;k 且 Pj&lt;Pk&lt;Pi；n=4 时以 2 开头的合法序列有 5 个。合法出栈序列数为卡特兰数 Cn，Ck/C(k−1)=(4k−2)/(k+1)，以 1 或 2 开头的数量均为 M。</p>
+</div>
+</body>
+</html>

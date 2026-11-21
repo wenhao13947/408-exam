@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2015-第41题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>1）算法的基本设计思想</p><p>使用一个大小为 n+1 的辅助数组 seen，记录绝对值 0～n 是否已经出现。顺序扫描单链表：若 seen[abs(data)] 为 0，则保留当前结点并将该位置记为 1；否则删除当前结点。这样只需扫描链表一次。</p><p>2）单链表结点的数据类型定义</p><div class="highlight"><pre><code class="language-c">typedef struct ListNode {
+    int data;
+    struct ListNode *next;
+} ListNode;</code></pre></div><p>3）算法实现</p><div class="highlight"><pre><code class="language-c">void RemoveElements(ListNode *head, int n) {
+    int *seen = (int *)calloc(n + 1, sizeof(int));
+    ListNode *previous = head;
+    ListNode *current = head-&gt;next;
+
+    while (current != NULL) {
+        int index = abs(current-&gt;data);
+        if (seen[index]) {
+            ListNode *deleted = current;
+            previous-&gt;next = current-&gt;next;
+            current = previous-&gt;next;
+            free(deleted);
+        } else {
+            seen[index] = 1;
+            previous = current;
+            current = current-&gt;next;
+        }
+    }
+    free(seen);
+}</code></pre></div><p>代码中统一使用 next 作为后继指针字段。previous 始终指向 current 的前驱结点，因此删除 current 后不需要重新遍历链表。</p><p>4）复杂度分析</p><p>初始化辅助数组需要 O(n) 时间，扫描 m 个链表结点需要 O(m) 时间，因此严格计算的总时间复杂度为 O(m+n)；若按辅助数组已完成初始化的口径，只计链表扫描过程，则为 O(m)。辅助空间复杂度为 O(n)。</p></div></div>
+
+
+</body>
+</html>

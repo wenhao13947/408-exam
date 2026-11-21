@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2019-第41题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>1）算法的基本设计思想</p><p>目标序列需要依次取原链表的首结点、尾结点、次首结点、次尾结点。可先用快慢指针找到前半段的尾结点，将链表从中间断开；再原地逆置后半段；最后将前、后两段结点交叉合并。整个过程只使用常数个指针。</p><p>2）算法实现</p><div class="highlight"><pre><code class="language-c">void Rearrange(NODE *head) {
+    if (head == NULL || head-&gt;next == NULL || head-&gt;next-&gt;next == NULL) {
+        return;
+    }
+
+    NODE *slow = head-&gt;next;
+    NODE *fast = head-&gt;next;
+    while (fast-&gt;next != NULL &amp;&amp; fast-&gt;next-&gt;next != NULL) {
+        slow = slow-&gt;next;
+        fast = fast-&gt;next-&gt;next;
+    }
+
+    NODE *second = slow-&gt;next;
+    slow-&gt;next = NULL;
+
+    NODE *previous = NULL;
+    while (second != NULL) {
+        NODE *next = second-&gt;next;
+        second-&gt;next = previous;
+        previous = second;
+        second = next;
+    }
+
+    NODE *first = head-&gt;next;
+    second = previous;
+    while (second != NULL) {
+        NODE *nextFirst = first-&gt;next;
+        NODE *nextSecond = second-&gt;next;
+        first-&gt;next = second;
+        second-&gt;next = nextFirst;
+        first = nextFirst;
+        second = nextSecond;
+    }
+}</code></pre></div><p>关键步骤是执行 slow-&gt;next = NULL，将前后两段彻底断开后再逆置后半段，否则旧的 next 指针可能形成环。</p><p>3）复杂度分析</p><p>寻找中点、逆置后半段和交叉合并均为 O(n)，因此总时间复杂度为 O(n)；只使用常数个辅助指针，空间复杂度为 O(1)。</p></div></div>
+
+
+</body>
+</html>

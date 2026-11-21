@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2016-第14题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>大端模式：一个字中的高位字节（Byte）存放在内存中这个字区域的低地址处。小端方式：一个字中的低位字节（Byte）存放在内存中这个字区域的低地址处。依此分析，各字节的存储分配如下表所示。</p><table class="table td-initial"><thead><tr><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td>地址</td><td>00008040H</td><td>00008041H</td><td>00008042H</td><td>00008043H</td></tr><tr><td>内容</td><td>88H</td><td>77H</td><td>66H</td><td>55H</td></tr><tr><td>地址</td><td>00008044H</td><td>00008045H</td><td>00008046H</td><td>00008047H</td></tr><tr><td>内容</td><td>44H</td><td>33H</td><td>22H</td><td>11H</td></tr></tbody></table><p>从而存储单元 0000 804 6H 中存放的是 22H。</p></div></div>
+
+
+</body>
+</html>

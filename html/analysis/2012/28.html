@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2012-第28题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>对于 I，若所读文件的数据尚未在内存缓冲区中，操作系统需要发起磁盘 I/O。由于磁盘访问尚未完成，调用 read 的进程会进入睡眠等待（阻塞）状态；待设备完成数据传输后，操作系统再将该进程唤醒。因此 I 正确。这里发生的是 read 系统调用中的磁盘 I/O 等待，不应简单等同于用户进程访问虚拟内存时发生的缺页异常。</p><p>对于 II，read 是系统调用，请求 read 会通过陷入使 CPU 从用户态切换到核心态，从而执行操作系统提供的服务，因此 II 正确。</p><p>对于 III，读取文件前通常先用 open 系统调用打开文件。open 的参数包含路径名和文件名，而 read 使用 open 返回的文件描述符，不需要再传入文件名。read 的主要参数是：①文件描述符 fd；②缓冲区首地址 buf；③期望读取的字节数 n。因此 III 错误。</p><p>综上，正确选项为 A（仅 I、II）。</p></div></div>
+
+
+</body>
+</html>

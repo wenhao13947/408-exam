@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2024-第42题-解析</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="content"><div class="analysis-content">
+<p>（1）依次插入关键字后，散列表 HT 如下：</p>
+<table class="table td-initial"><tbody>
+<tr><td>散列地址</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+<tr><td>关键字</td><td>11</td><td></td><td>14</td><td>7</td><td></td><td>20</td><td>9</td><td></td><td></td><td>3</td><td>18</td></tr>
+<tr><td>冲突次数</td><td>0</td><td></td><td>2</td><td>2</td><td></td><td>0</td><td>1</td><td></td><td></td><td>0</td><td>0</td></tr>
+</tbody></table>
+<p>表中存有 7 个关键字，表长为 11，因此装填因子为 <code>7/11</code>。</p>
+<p>（2）<code>H(14)=9</code>。地址 9、10、2 中的关键字依次为 3、18、14，因此查找关键字 14 的关键字比较序列为 <strong>3，18，14</strong>。</p>
+<p>（3）<code>H(8)=2</code>，按平方探查依次访问地址 2、3、6、0、7。地址 7 为空，因此确认查找失败时的散列地址为 <strong>7</strong>。</p>
+</div></div>
+</body>
+</html>

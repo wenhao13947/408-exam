@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2022-第40题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>HTTP/1.1 默认使用流水线的 长连接，所有请求都是连续发送的。题目要求最少
+时间，最理想的流程是 TCP 在第三次握手的报文段中捎带 HTTP 请求，以及 TCP 连接后慢开
+始阶段不考虑拥塞情况。假设接收方有足够大的缓存空间，即发送窗口等同于拥塞窗口，总
+共需要经过：第 1 个 RTT，进行 TCP 连接，此时服务器 S 的发送窗口= 1MSS，并在第三次
+握手时捎带 HTTP 请求；第 2 个 RTT，服务器 S 发送大小为 1MSS 的 html 文件，主机 C 确认
+后服务器 S 的发送窗口变为 2MSS；第 3 个 RTT，服务器 S 发送大小为 2MSS 的图像文件，
+主机 C 确认后服务器 S 的发送窗口变为 4MSS；第 4 个 RTT，服务器 S 发送剩下的 1MSS 图
+像文件，完成传输，总共需要 4 个 RTT，即 40ms。</div></div>
+
+
+</body>
+</html>

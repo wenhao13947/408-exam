@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2021-第16题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>由于是 直接映射，所以物理地址的结构分为以下几个部分：</p><p>| Tag（17 bits） | Cache 块号（10 bits） | 块内偏移（5 bits） |</p><p>Cache 行包含以下几个部分：标记（tag 17bits）、有效位（valid 1bit）、修改位（dirty 1bit）、数据区（32B）</p><p>Cache 行的大小为 17 + 1 + 1 + 32 * 8 = 275</p></div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第4题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p><strong>【解析】</strong><br/>这是一道 <strong>森林 → 二叉树（左孩子 - 右兄弟表示法）</strong> 的经典题。</p><p><strong>关键结论（必须掌握）</strong></p><p>把森林转换为二叉树（<strong>左孩子 - 右兄弟</strong>）后：</p><blockquote><p><strong>二叉树的高度 = max( 第 i 棵树的高度 + (i − 1) )</strong></p></blockquote><p>其中</p><ul><li>第
+<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:.6595em"></span><span class="mord mathnormal">i</span></span></span></span>
+棵树是森林中从左到右的顺序；</li><li><span class="katex"><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:1em;vertical-align:-.25em"></span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:.2222em"></span><span class="mbin">−</span><span class="mspace" style="margin-right:.2222em"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-.25em"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>
+来自“右兄弟”链；</li><li>为了<strong>最小高度</strong>，应当把<strong>高度最大的树放在最前面</strong>。</li></ul><hr/><p><strong>先算每棵树转换后的最小二叉树高度</strong></p><p>一棵含 n 个结点的普通树转换成左孩子-右兄弟二叉树后，根没有右孩子，其余 n-1 个结点都位于根的左子树。含 n-1 个结点的二叉树最小高度为 <code>ceil(log2 n)</code>，因此转换后整棵二叉树的最小高度为 <code>1+ceil(log2 n)</code>（n≥2）。</p><table><thead><tr><th>结点数</th><th>转换后的最小高度</th></tr></thead><tbody><tr><td>7</td><td>4</td></tr><tr><td>5</td><td>4</td></tr><tr><td>4</td><td>3</td></tr><tr><td>3</td><td>3</td></tr><tr><td>2</td><td>2</td></tr></tbody></table><p>按高度从大到小排列为 <code>4, 4, 3, 3, 2</code>。</p><p><strong>计算二叉树最小高度</strong></p><table><thead><tr><th>i</th><th>h<sub>i</sub></th><th>h<sub>i</sub>+(i-1)</th></tr></thead><tbody><tr><td>1</td><td>4</td><td>4</td></tr><tr><td>2</td><td>4</td><td>5</td></tr><tr><td>3</td><td>3</td><td>5</td></tr><tr><td>4</td><td>3</td><td>6</td></tr><tr><td>5</td><td>2</td><td><strong>6</strong></td></tr></tbody></table><p>最大值 = <strong>6</strong></p></div></div>
+
+
+</body>
+</html>

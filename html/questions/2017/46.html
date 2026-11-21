@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2017-46题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/>
+<style>
+  .thread-layout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 20px;
+    margin: 18px 0 20px;
+  }
+
+  .thread-card {
+    border: 1px solid currentColor;
+    background: transparent;
+    padding: 18px 18px 14px;
+  }
+
+  .thread-card pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 16px;
+    line-height: 1.55;
+    color: inherit;
+    background: transparent;
+  }
+
+  @media (max-width: 900px) {
+    .thread-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style></head>
+<body>
+<div class="content"><p>某进程中有 3 个并发执行的线程 thread1、thread2、thread3，其伪代码如下所示。</p>
+<div class="thread-layout">
+<div class="thread-card"><pre><code>//复数的结构类型定义
+typedef struct
+{
+    float a;
+    float b;
+} cnum;
+
+//全局变量
+cnum x, y, z;
+
+//计算两个复数之和
+cnum add(cnum p, cnum q)
+{
+    cnum s;
+    s.a = p.a + q.a;
+    s.b = p.b + q.b;
+    return s;
+}</code></pre></div>
+<div class="thread-card"><pre><code>thread1
+{
+    cnum w;
+    w = add(x, y);
+    ...
+}
+
+thread2
+{
+    cnum w;
+    w = add(y, z);
+    ...
+}</code></pre></div>
+<div class="thread-card"><pre><code>thread3
+{
+    cnum w;
+    w.a = 1;
+    w.b = 2;
+    z = add(z, w);
+    y = add(y, w);
+    ...
+}</code></pre></div>
+</div>
+<p>请添加必要的信号量和 P、V（或 wait()、signal()）操作，要求确保线程互斥访问临界资源，并且最大程度地并发执行。</p></div>
+
+
+</body>
+</html>

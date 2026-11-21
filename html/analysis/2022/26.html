@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2022-第26题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>初始时系统中的可用资源数为 <code>&lt;1,3,2&gt;</code>，只能满足 P0 的需求 <code>&lt;0,2,1&gt;</code>，所以 安全分配序列 第一个只能是 P0，
+将资源分配给 P0 后，P0 执行完释放所占资源，可用资源数变为 <code>&lt;1,3,2&gt; + &lt;2,0,1&gt; = &lt;3,3,3&gt;</code>，
+此时可用资源数既能满足 P1，也能满足 P2，可以先分配给 P1，P1 执行完释放资源再分配给 P2，
+也可以先分配给 P2，P2 执行完释放资源再分配给 P1。
+所以安全序列可以是 ①P0、P1、P2 或 ②P0、P2、P1。</div></div>
+
+
+</body>
+</html>

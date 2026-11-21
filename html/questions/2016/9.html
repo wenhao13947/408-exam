@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2016-第9题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><p>在有 n(n&gt;1000) 个元素的升序数组 A 中查找关键字 x。查找算法的伪代码如下所示。</p>
+<pre tabindex="0"><code>k = 0;
+while (k &lt; n 且 A[k] &lt; x) k = k + 3;
+if (k &lt; n 且 A[k] == x) 查找成功；
+else if (k - 1 &lt; n 且 A[k - 1] == x) 查找成功；
+else if (k - 2 &lt; n 且 A[k - 2] == x) 查找成功；
+else 查找失败；
+</code></pre>
+<p>本算法与折半查找算法相比，有可能具有更少比较次数的情形是（）</p>
+<div class="option"><span class="opt-label">A.</span><span class="opt-content">当 x 不在数组中</span></div>
+<div class="option"><span class="opt-label">B.</span><span class="opt-content">当 x 接近数组开头处</span></div>
+<div class="option"><span class="opt-label">C.</span><span class="opt-content">当 x 接近数组结尾处</span></div>
+<div class="option"><span class="opt-label">D.</span><span class="opt-content">当 x 位于数组中间位置</span></div></div>
+
+
+</body>
+</html>

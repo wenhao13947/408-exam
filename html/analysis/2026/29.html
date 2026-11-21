@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第29题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p><strong>【解析】</strong></p><p>I 正确。TLB 缓存地址转换结果，命中时减少访问内存中页表的次数。</p><p>II 不正确。多级页表主要节省页表存储空间；未命中 TLB 时逐级查表可能增加访存次数。</p><p>III 正确。工作集模型有助于维持进程局部性、减少缺页。</p><p>IV 正确。页缓冲队列用于保留已换出或空闲的页框，在适用情况下减少磁盘调页开销；它不是缓存页表项的“页表缓冲队列”。</p><p>因此 I、III、IV 正确，选择 D。</p></div></div>
+
+
+</body>
+</html>

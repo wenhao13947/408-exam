@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第20题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p><strong>【解析】</strong></p><p>I 正确。单周期数据通路中，每条指令恰好占一个时钟周期，CPI 等于 1。</p><p>II 正确。多周期数据通路中，一条指令需要多个时钟周期，平均 CPI 大于 1。</p><p>III 错误。流水线数据通路只有在理想稳态且无冒险、停顿时才可能达到 CPI 约为 1；题干仅排除了异常、中断处理和访存额外开销，没有排除流水线冒险，也不能保证 CPI 恒等于 1。</p><p>因此仅 I、II 正确，选择 A。</p></div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第20题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>本题考查总线“工作频率”和“时钟频率”的区别。题干写的是工作频率 1333MHz，并特别说明实际单位是 MT/s，表示每秒传送 1333M 次数据，因此这里的 1333M 已经是有效传送次数，不能再额外乘以 quadpumped 的 4。</p><div class="img-container" oncontextmenu="return!1" style="height:auto;width:auto"><img alt="" draggable="false" oncontextmenu="return!1" onmousedown="return!1" onselectstart="return!1" src="../../static/assets/exam/2025/2025_20_raw.png" style="width:100%;height:auto"/></div><p>总线宽度为 64 位，即 8B，因此：</p><p>总线带宽 = 1333M × 8B ≈ 10.66GB/s。</p><p>所以答案选 A。</p><hr/><p>如果题干给出的是总线时钟频率 1333MHz，才需要再乘以每个时钟周期传送 4 次数据，此时带宽约为 1333M × 4 × 8B ≈ 42.66GB/s，对应选项 B。但本题已经把工作频率按 MT/s 给出，因此不能按这种方式计算。</p></div></div>
+
+
+</body>
+</html>

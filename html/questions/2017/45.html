@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2017-第45题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><style>
+  .addr-format-wrap {
+    margin: 14px 0 18px;
+    overflow-x: auto;
+  }
+
+  .addr-format {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    color: inherit;
+    background: transparent;
+  }
+
+  .addr-format td {
+    border: 1px solid currentColor;
+    padding: 12px 10px;
+    text-align: center;
+    vertical-align: middle;
+    color: inherit;
+    background: transparent;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .context-table {
+    width: 100%;
+    margin: 12px 0 18px;
+    border-collapse: collapse;
+    color: inherit;
+    background: transparent;
+  }
+
+  .context-table th,
+  .context-table td {
+    border: 1px solid currentColor;
+    padding: 7px 10px;
+    text-align: center;
+    vertical-align: middle;
+    color: inherit;
+    background: transparent;
+  }
+</style><p>假定题 44 给出的计算机 M 采用二级分页虚拟存储管理方式，虚拟地址格式如下：</p>
+<div class="addr-format-wrap"><table class="addr-format"><tbody><tr><td>页目录号（10 位）</td><td>页表索引（10 位）</td><td>页内偏移量（12 位）</td></tr></tbody></table></div>
+<p>题 43 中的函数 <code>f1</code> 定义为 <code>int f1(unsigned n)</code>。题 44 给出的相关机器级代码如下（每行依次为行号、虚拟地址、机器指令和汇编指令）：</p>
+<table class="context-table">
+<thead><tr><th>行号</th><th>虚拟地址</th><th>机器指令</th><th>汇编指令</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>00401020</td><td>55</td><td>push ebp</td></tr>
+<tr><td>20</td><td>0040105E</td><td>39 4D F4</td><td>cmp dword ptr [ebp-0Ch], ecx</td></tr>
+<tr><td>23</td><td>00401066</td><td>D1 E2</td><td>shl edx, 1</td></tr>
+<tr><td>35</td><td>0040107F</td><td>C3</td><td>ret</td></tr>
+</tbody>
+</table>
+<p>请针对题 43 的函数 f1 和题 44 中的机器指令代码，回答下列问题。</p>
+<p>(1) 函数 f1 的机器指令代码占多少页？</p>
+<p>(2) 取第 1 条指令（push ebp）时，若在进行地址变换的过程中需要访问内存中的页目录和页表，则会分别访问它们各自的第几个表项（编号从 0 开始）？</p>
+<p>(3) M 的 I/O 采用中断控制方式。若进程 P 在调用 f1 之前通过 scanf() 获取 n 的值，则在执行 scanf() 的过程中，进程 P 的状态会如何变化？CPU 是否会进入内核态？</p></div>
+
+
+</body>
+</html>

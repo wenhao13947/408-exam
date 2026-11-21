@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第47题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（本题 9 分）</p><p>人工智能（AI）是引领未来的战略性技术，其发展高度依赖强大的算力供给，通过网络互联分散的算力中心，可以充分聚合算力资源，满足人工智能对大规模算力的需求，支撑人工智能国家发展战略。某算力调度交易平台聚合各地的算力中心的算力，向用户提供算力服务的示意场景如题 47 图所示。算力用户 C 向平台申请算力服务，平台通过优化调度各算力中心算力，向 C 授权使用算力中心 i 的算力，S<sub>i</sub> 为算力中心 i 的负载均衡服务器，用于接收算力用户的计算任务描述数据文件，并向算力中心 i 内部分派计算任务。为确保可靠传输，假设 C 建立一条 TCP 连接向服务器 S<sub>i</sub> 上传一个总长度为 2000 B 的计算任务描述数据文件，拥塞窗口初始阈值为 8 MSS，MSS=500 B，S<sub>i</sub> 对收到的每个 TCP 段进行确认，且确认段不封装数据，接收窗口 rwnd 始终为 1000 B，RTT=5 ms。C 建立连接时选择的初始序号为 1000，S<sub>i</sub> 选择的初始序号为 2000，SYN、ACK、FIN 为标志位，seq 为序号，ack_seq 为确认序号。在整个文件传输过程中未出现任何重传或报文段丢失。</p><div class="svg-wrapper"><img src="/static/assets/2026-outline/47.webp" alt="题 47 图" style="max-width:100%;height:auto;display:block" loading="lazy"></div><p>请回答下列问题。</p><p>（1）C 与 S<sub>i</sub> 建立 TCP 连接过程需要几次握手？C 收到的 SYN=1、ACK=1 的 TCP 段的确认序号（ack_seq）是多少？（2 分）</p><p>（2）当 C 接收到 S<sub>i</sub> 发送的“ACK=1，seq=2001，ack_seq=2001，rwnd=1000”确认段后，C 的拥塞窗口增加到多少？C 的发送窗口设置为多少？（2 分）</p><p>（3）C 与 S<sub>i</sub> 释放 TCP 连接过程需要几次挥手？C 收到的最后一个 TCP 报文段的序号（seq）、确认序号（ack_seq）、FIN 的值分别是多少？（4 分）</p><p>（4）若忽略报文段传输时延，且时间从 C 请求建立 TCP 连接时刻算起，则 C 确认 S<sub>i</sub> 已成功接收到文件的时间是多少？（1 分）</p>
+</div>
+</body>
+</html>

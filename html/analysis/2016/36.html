@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2016-第36题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>因为要解决 理论上可以相距的最远距离，所以最远肯定要保证能检测到碰撞，而以太网规定最短帧长为 64B，其中 Hub 为 100Base-T 集线器，可知线路的传输速率为 100Mbps, 则单程传输时延为 64B/100Mbps/2 = 2.56μs，又 Hub 再产生比特流的过程中会导致延时 1.535μs，则单程的传播时延为 2.56μs- 1.535μs = 1.025μs，从而 H3 与 H4 之间理论上可以相距的最远距离为 200m/μs x 1.025μs = 205m。</div></div>
+
+
+</body>
+</html>

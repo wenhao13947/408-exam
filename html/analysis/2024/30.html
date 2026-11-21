@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2024-第30题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>由于使用的是轮转调度算法，进程即在每次执行一个时间片后，都需要重新回到就绪队列的末尾等待下一次的时间片。所以，实际上，进程 P 的每一个时间片之间都有一个完整的轮转周期的等待时间：10×5ms=50ms，进程 P 需要执行 25/5 个时间片，所有中间有 4 个完整的轮转周期再加上 P 的周转时间为，总共需要 5 个轮转周期：5×50ms=250ms。</div></div>
+
+
+</body>
+</html>

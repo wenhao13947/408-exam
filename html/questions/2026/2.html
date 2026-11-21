@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第2题-题目</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="content">
+<p>已知带头结点的双向链表 L 含有 n（n≥3）个元素，结点结构为 </p><div class="svg-wrapper"><img src="/static/assets/2026-outline/2.webp" alt="题 2 图" style="max-width:100%;height:auto;display:block" loading="lazy"></div><p>其中，p2 和 p1 分别是指向其直接前驱和直接后继结点的指针，指针 head 指向头结点，指针 cu=head。现要将 L 各结点中的 p2 指针修改为指向 p1 所指结点的直接后继结点。当指针指向的结点不存在时，相应的指针值为 NULL。下列选项中，可以完成修改功能的是</p><div class="option"><span class="opt-label">A.</span><span class="opt-content"><pre><code>while (cu!=NULL) {
+    cu-&gt;p2=cu-&gt;p1-&gt;p1;
+    cu=cu-&gt;p1;
+}</code></pre></span></div><div class="option"><span class="opt-label">B.</span><span class="opt-content"><pre><code>while (cu!=NULL&amp;&amp;cu-&gt;p2!=NULL) {
+    cu-&gt;p2=cu-&gt;p1-&gt;p1;
+    cu=cu-&gt;p1;
+}</code></pre></span></div><div class="option"><span class="opt-label">C.</span><span class="opt-content"><pre><code>while (cu!=NULL) {
+    if (cu-&gt;p1!=NULL) {
+        cu-&gt;p2=cu-&gt;p1-&gt;p1;
+        cu=cu-&gt;p1;
+    }
+}</code></pre></span></div><div class="option"><span class="opt-label">D.</span><span class="opt-content"><pre><code>while (cu!=NULL) {
+    if (cu-&gt;p1!=NULL)
+        cu-&gt;p2=cu-&gt;p1-&gt;p1;
+    else
+        cu-&gt;p2=NULL;
+    cu=cu-&gt;p1;
+}</code></pre></span></div>
+</div>
+</body>
+</html>

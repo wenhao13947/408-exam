@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2024-第18题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>MMU 负责将虚拟地址转化为物理地址，所以会检测以下事件：访问越权、页面缺失、TLB 缺失。Cache 缺失不是在 MMU 地址转换过程中检测的，而是在 CPU 访问主存数据检测的，访问主存的前提是有物理地址，所以该过程是在 MMU 完成地址翻译之后。</div></div>
+
+
+</body>
+</html>

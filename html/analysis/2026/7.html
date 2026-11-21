@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第7题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>正确答案：B</p><p>无环有向图的路径不能重复经过顶点，路径最多含 n−1 条边，所以不可能产生长度为 n 的字符串，B 错误。无环时路径数有限，A 正确。若有环，由每个顶点均位于初始点到标记点路径上的条件可知，可以在环中重复行走后到达标记点，得到任意长的字符串，C 正确；也可以选择不重复顶点的初始点到某标记点的路径，其长度小于 n，从而小于 2n，D 正确。</p>
+</div>
+</body>
+</html>

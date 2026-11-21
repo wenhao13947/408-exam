@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2014-第45题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><style>
+  .context-table {
+    width: 100%;
+    margin: 12px 0 18px;
+    border-collapse: collapse;
+    color: inherit;
+    background: transparent;
+  }
+
+  .context-table th,
+  .context-table td {
+    border: 1px solid currentColor;
+    padding: 7px 10px;
+    text-align: center;
+    vertical-align: middle;
+    color: inherit;
+    background: transparent;
+  }
+</style><p>假设对于题 44 中的计算机 M 和程序段 P 的机器代码，M 采用页式虚拟存储管理；P 开始执行时，(R1)=(R2)=0，(R6)=1000，其机器代码已调入主存但不在 Cache 中；数组 A 未调入主存，且所有数组元素在同一页，并存储在磁盘同一个扇区。请回答下列问题并说明理由。</p>
+<p>题 44 中的程序段 P 为 <code>for (int i=0; i&lt;N; i++) sum += A[i];</code>。变量 sum 和 i 分别分配在寄存器 R1 和 R2 中，常量 N 在 R6 中，数组 A 的首地址在 R3 中。对应机器代码如下：</p>
+<table class="context-table">
+<thead><tr><th>编号</th><th>地址</th><th>机器代码</th><th>汇编代码</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>08048100H</td><td>00022080H</td><td>sll R4, R2, 2</td><td>(R2)&lt;&lt;2 → R4</td></tr>
+<tr><td>2</td><td>08048104H</td><td>00083020H</td><td>add R4, R4, R3</td><td>(R4)+(R3) → R4</td></tr>
+<tr><td>3</td><td>08048108H</td><td>8C850000H</td><td>load R5, 0(R4)</td><td>((R4)+0) → R5</td></tr>
+<tr><td>4</td><td>0804810CH</td><td>00250820H</td><td>add R1, R1, R5</td><td>(R1)+(R5) → R1</td></tr>
+<tr><td>5</td><td>08048110H</td><td>20420001H</td><td>add R2, R2, 1</td><td>(R2)+1 → R2</td></tr>
+<tr><td>6</td><td>08048114H</td><td>1446FFFAH</td><td>bne R2, R6, loop</td><td>若 (R2)≠(R6)，转至 loop</td></tr>
+</tbody>
+</table>
+<p>(1) P 执行结束时，R2 的内容是多少？</p>
+<p>(2) M 的指令 Cache 和数据 Cache 分离。若指令 Cache 共有 16 行，Cache 和主存交换的块大小为 32 字节，则其数据区的容量是多少？若仅考虑程序段 P 的执行，则指令 Cache 的命中率为多少？</p>
+<p>(3) P 在执行过程中，哪条指令的执行可能发生溢出异常？哪条指令的执行可能产生缺页异常？对于数组 A 的访问，需要读磁盘和 TLB 至少各多少次？</p></div>
+
+
+</body>
+</html>

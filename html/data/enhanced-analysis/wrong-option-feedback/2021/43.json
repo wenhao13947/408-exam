@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="408真题系统 - 计算机考研真题刷题平台" />
+    <meta name="keywords" content="408,考研,真题,数据结构,组成原理,操作系统,计算机网络" />
+    <title>408真题系统</title>
+    <!-- 百度统计 -->
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?8c018c922a3f2c5a2dc420e3e6c5193c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    <script type="importmap">{"imports":{"/assets/MockExamView-OwHeSmi9.js":"/assets/MockExamView-billing-dc62264046d8.js"}}</script>
+    <script type="module" src="/assets/index-BBBUD1mr.js"></script>
+    
+    
+    <link rel="stylesheet" href="/assets/index-DXHnhrpM.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

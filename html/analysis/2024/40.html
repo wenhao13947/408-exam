@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2024-第40题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>参考 长连接和短连接，在 HTTP/1.0 协议中，如果浏览器不支持并行 TCP 连接，那么每个请求（包括主页面和每个图像文件）都需要单独建立一个 TCP 连接。每个 TCP 连接的建立都需要 1 个往返时间 RTT，因此，对于主页面和 7 个图像文件的请求，总共需要 8 个 RTT。此外，每个 TCP 连接在数据传输完成后都需要关闭，每个关闭连接也需要一个 RTT，共 8 个 RTT。所以从浏览器为传输 Web 页请求建立 TCP 连接开始，到接收完所有内容为所需要的往返时间 RTT 数至少是 8（建立连接）+8（关闭连接）= 16。</div></div>
+
+
+</body>
+</html>

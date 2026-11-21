@@ -1,0 +1,14 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2009-Question-39-analysis</title>
+<link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+<div class="content"><div class="analysis-content"><br/>在发生超时后，慢开始门限 ssthresh 变为 16KB/2 = 8KB，拥塞窗口变为 1KB。在接下来的 3 个 RTT 内，执行 慢开始 算法，拥塞窗口大小依次为 2KB、4KB、8KB，由于慢开始门限 ssthresh 为 8KB，因此之后转而执行 拥塞避免 算法，即拥塞窗口开始“加法增大”。因此第 4 个 RTT 结束后，拥塞窗口的大小为 9KB。</div></div>
+
+
+</body>
+</html>

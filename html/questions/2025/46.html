@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第46题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><p>某进程的虚拟地址空间如图，阴影部分为未占用区域，有 C 程序：</p>
+<div class="svg-wrapper"><div class="svg-container" style="height:auto"><svg id="memory-layout-2025-46" style="display:block;width:201px;max-width:100%;height:auto;margin:16px auto 22px" xmlns="http://www.w3.org/2000/svg" width="201" height="391" viewBox="-0.5 -0.5 201 391" role="img" aria-labelledby="title description">
+  <title id="title">进程虚拟地址空间图</title>
+  <desc id="description">从上到下依次为操作系统内核区、用户栈、空白区、共享库的存储映射区、空白区、动态生成的堆、读写数据段、只读代码段和未使用区。</desc>
+  <g fill="#ffffff" stroke="#000000">
+    <rect x="0" y="0" width="200" height="40" />
+    <rect x="0" y="40" width="200" height="40" />
+    <rect x="0" y="80" width="200" height="40" />
+    <rect x="0" y="120" width="200" height="40" />
+    <rect x="0" y="160" width="200" height="40" />
+    <rect x="0" y="200" width="200" height="70" />
+    <rect x="0" y="270" width="200" height="40" />
+    <rect x="0" y="310" width="200" height="40" />
+    <rect x="0" y="350" width="200" height="40" />
+  </g>
+  <g fill="#000000" font-family="Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" text-anchor="middle" dominant-baseline="middle">
+    <text x="100" y="20">操作系统内核区</text>
+    <text x="100" y="60">用户栈</text>
+    <text x="100" y="140">共享库的存储映射区</text>
+    <text x="100" y="235">动态生成的堆</text>
+    <text x="100" y="290">读/写数据段</text>
+    <text x="100" y="330">只读代码段</text>
+    <text x="100" y="370">未使用区</text>
+  </g>
+</svg></div></div>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4" tabindex="0"><code class="language-c" data-lang="c"><span style="display:flex"><span><span style="color:#204a87;font-weight:700">char</span> <span style="color:#ce5c00;font-weight:700">*</span> <span style="color:#000">ptr</span><span style="color:#000;font-weight:700">;</span>
+</span></span><span style="display:flex"><span><span style="color:#204a87;font-weight:700">void</span> <span style="color:#000">main</span><span style="color:#000;font-weight:700">()</span> <span style="color:#000;font-weight:700">{</span>
+</span></span><span style="display:flex"><span>    <span style="color:#204a87;font-weight:700">int</span> <span style="color:#000">length</span><span style="color:#000;font-weight:700">;</span>
+</span></span><span style="display:flex"><span>    <span style="color:#000">ptr</span><span style="color:#ce5c00;font-weight:700">=</span><span style="color:#000;font-weight:700">(</span><span style="color:#204a87;font-weight:700">char</span><span style="color:#ce5c00;font-weight:700">*</span><span style="color:#000;font-weight:700">)</span> <span style="color:#000">malloc</span><span style="color:#000;font-weight:700">(</span><span style="color:#0000cf;font-weight:700">100</span><span style="color:#000;font-weight:700">);</span>
+</span></span><span style="display:flex"><span>    <span style="color:#000">scanf</span><span style="color:#000;font-weight:700">(</span><span style="color:#4e9a06">"%s"</span><span style="color:#000;font-weight:700">,</span> <span style="color:#000">ptr</span><span style="color:#000;font-weight:700">);</span>
+</span></span><span style="display:flex"><span>    <span style="color:#000">length</span> <span style="color:#ce5c00;font-weight:700">=</span> <span style="color:#000">strlen</span><span style="color:#000;font-weight:700">(</span><span style="color:#000">ptr</span><span style="color:#000;font-weight:700">);</span>
+</span></span><span style="display:flex"><span>    <span style="color:#000">printf</span><span style="color:#000;font-weight:700">(</span><span style="color:#4e9a06">"length=%d</span><span style="color:#4e9a06">\n</span><span style="color:#4e9a06">"</span><span style="color:#000;font-weight:700">,</span> <span style="color:#000">length</span><span style="color:#000;font-weight:700">);</span>
+</span></span><span style="display:flex"><span>    <span style="color:#000">free</span><span style="color:#000;font-weight:700">(</span><span style="color:#000">ptr</span><span style="color:#000;font-weight:700">)</span> <span style="color:#000;font-weight:700">;</span>
+</span></span><span style="display:flex"><span><span style="color:#000;font-weight:700">}</span>
+</span></span></code></pre></div>
+<p>(1) 上述程序执行时，PCB 位于哪个区域，执行 scanf () 等待键盘输入时，该进程处于什么状态？</p>
+<p>(2) main() 函数的代码位于哪个区域？其直接调用的哪些函数的功能需要通过执行驱动程序实现？</p>
+<p>(3) 变量 ptr 被分配在哪个区域？若变量 length 没有被分配在寄存器中，则会被分配在哪个区域？ptr 指向的字符串位于哪个区域？</p></div>
+
+
+</body>
+</html>

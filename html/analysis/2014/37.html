@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2014-第37题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>本题考察 CMDA，把收到的序列分成每 4 个数字一组，即为 (2,0,2,0)、(0,-2,0,-2)、(0,2,0,2)，因为题目求的是 A 发送的数据，因此把这三组数据与 A 站的码片序列 (1,1,1,1) 做内积运算，结果分别是 (2,0,2,0)·(1,1,1,1)/4=1、(0,-2,0,-2)·(1,1,1,1)/4=-1、(0,2,0,2)·(1,1,1,1)/4=1，所以 C 接收到的 A 发送的数据是 101，选 B。</div></div>
+
+
+</body>
+</html>

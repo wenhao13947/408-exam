@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于简单题，这类基础分不应丢失。",
+    "title": "没有结合题干条件逐步验证这个判断",
+    "reason": "4 RTT：不足以从 1KB 增长到 16KB。",
+    "trap": "超时后不是直接把 cwnd 改成 ssthresh，而是先置为 1KB 再慢开始。这里的“至少”是指从超时发生后重新计时，不是从 cwnd = 16KB 的上一轮开始算。"
+  },
+  "B": {
+    "crowdHint": "从全网作答情况来看，这道题属于简单题，这类基础分不应丢失。",
+    "title": "没有结合题干条件逐步验证这个判断",
+    "reason": "“5 RTT”与题目条件不符。题目考察 TCP 拥塞控制在超时重传后的恢复过程。 当 cwnd = 16KB 时发生超时，TCP 处理为： ssthresh = cwnd / 2 = 8KB cwnd = 1KB 重新进入慢开始 之后 cwnd 按 RTT 指数增长： 第 1 个 RTT 后：cwnd = 2KB 第 2 个 RTT 后：cwnd = 4KB 第 3 个 RTT 后：cwnd = 8KB 当 cwnd…",
+    "trap": "超时后不是直接把 cwnd 改成 ssthresh，而是先置为 1KB 再慢开始。这里的“至少”是指从超时发生后重新计时，不是从 cwnd = 16KB 的上一轮开始算。"
+  },
+  "D": {
+    "crowdHint": "从全网作答情况来看，这道题属于简单题，这类基础分不应丢失。",
+    "title": "没有结合题干条件逐步验证这个判断",
+    "reason": "“16 RTT”与题目条件不符。题目考察 TCP 拥塞控制在超时重传后的恢复过程。 当 cwnd = 16KB 时发生超时，TCP 处理为： ssthresh = cwnd / 2 = 8KB cwnd = 1KB 重新进入慢开始 之后 cwnd 按 RTT 指数增长： 第 1 个 RTT 后：cwnd = 2KB 第 2 个 RTT 后：cwnd = 4KB 第 3 个 RTT 后：cwnd = 8KB 当 cwn…",
+    "trap": "超时后不是直接把 cwnd 改成 ssthresh，而是先置为 1KB 再慢开始。这里的“至少”是指从超时发生后重新计时，不是从 cwnd = 16KB 的上一轮开始算。"
+  }
+}

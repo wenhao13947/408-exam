@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第43题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>1）Cache 块大小和主存块大小一致为 64B，所以块内偏移为 6 位（
+<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:.8141em"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:.8141em"><span style="top:-3.063em;margin-right:.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:.2778em"></span></span><span class="base"><span class="strut" style="height:.6444em"></span><span class="mord">64</span></span></span></span>
+）。</p><p>Cache 块的数量为 32KB / 64B = 512，由于采用 8 路组相联，所以总共有 512 / 8 = 64 个组，组号占 6 位（
+<span class="katex"><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:.8141em"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:.8141em"><span style="top:-3.063em;margin-right:.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:.2778em"></span></span><span class="base"><span class="strut" style="height:.6444em"></span><span class="mord">64</span></span></span></span>
+）。</p><p>所以第 6 位到第 11 位可以作为 Cache 索引（即 VA11～VA6）。</p><p>2）&amp;d[100] = d + 100 × 4 = 0x0180 0020 + 0x190 = 0x0180 01B0，对应的二进制为 0000 0001 1000 0000 0000 0001 1011 0000，组号为 000110B，即 6。</p><p>3）d[0] 的起始地址为 0180 0020H，而主存块大小为 64B，因此 d[0] 在其所在主存块内的偏移量为 0020H。</p><p>数组总大小为 2048 × 4 = 8192B。由于数组起始地址在块内偏移 32B 处，所以数组实际跨越的主存块数为 ceil((32 + 8192) / 64) = 129 个。因此，顺序访问过程中会发生 129 次 Cache 缺失。</p><p>对于语句 <code>d[i] = d[i] / x</code>，数组元素 d[i] 需要先读后写，因此每次循环访问 d 两次，总访问次数为 2048 × 2 = 4096。</p><p>Cache 缺失率 = 129 / 4096 ≈ 3.15%。</p><p>数组元素的平均访问时间 = 2 + (129 / 4096) × 200 ≈ 8.30 个时钟周期。</p><p>4）数组 d 需要占用 8KB 的存储空间。由于数组起始地址的页内偏移为 32B，所以数组实际跨越的页数为 ceil((32 + 8192) / 4096) = 3 页。因此 d 分布在 3 个页中。若 d 初始不在主存，则首次访问这 3 个页时各产生一次缺页，所以缺页次数为 3。</p></div></div>
+
+
+</body>
+</html>

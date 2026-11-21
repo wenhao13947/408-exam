@@ -1,0 +1,18 @@
+{
+  "B": {
+    "crowdHint": "从全网作答情况来看，B 也是本题比较常错的选项。",
+    "title": "混淆了 ARP 与 DNS ",
+    "reason": "这不是 ARP 的功能。早期相关概念中，反向根据 MAC 找 IP 对应的是 RARP（Reverse ARP）的思路，但不属于本题所问的 ARP。",
+    "trap": "不要把 ARP 和 DNS 混淆。ARP：IP -> MAC DNS：域名 -> IP，以及相关反向解析 要注意“协议所处层次”。"
+  },
+  "C": {
+    "title": "混淆了 ARP 与 DNS ",
+    "reason": "这属于 DNS（Domain Name System）的功能。DNS 负责域名与 IP 地址之间的解析，不负责 IP 与 MAC 之间的映射。",
+    "trap": "不要把 ARP 和 DNS 混淆。ARP：IP -> MAC DNS：域名 -> IP，以及相关反向解析 要注意“协议所处层次”。"
+  },
+  "D": {
+    "title": "混淆了 ARP 与 DNS ",
+    "reason": "这也属于 DNS 的反向解析范畴，仍然不是 ARP 的功能。",
+    "trap": "不要把 ARP 和 DNS 混淆。ARP：IP -> MAC DNS：域名 -> IP，以及相关反向解析 要注意“协议所处层次”。"
+  }
+}

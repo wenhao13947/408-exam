@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第43题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（本题 10 分）</p><p>某 16 位计算机 C 按字节编址，通用寄存器 R0～R15 的编号为 0～15，存储器地址为 16 位，采用定长指令字，指令格式有 R、I 和 M 型，如下所示。</p><div class="svg-wrapper"><img src="/static/assets/2026-outline/43.webp" alt="题 43 图" style="max-width:100%;height:auto;display:block" loading="lazy"></div><p>其中，op1 为 0001、0010 分别表示加、左移指令，op2 为 0100 表示加立即数指令，op3 为 1110、1111 分别表示取数、存数指令，R[r] 表示寄存器 r 中的内容，num 为移位位数，M[addr] 表示存储器地址 addr 中的内容。请回答下列问题。</p><p>（1）主存单元和通用寄存器的宽度各是多少位？（2 分）</p><p>（2）op1 和 op2 的编码是否可以相同？op2 和 op3 的编码是否可以相同？（2 分）</p><p>（3）若 R[2]=ABCDH，R[9]=F001H，则指令 0000 0010 1001 0001 执行后，R2 和 R9 中内容分别是多少（用十六进制表示）？（2 分）</p><p>（4）若变量 x、y 均为 16 位带符号整数，在存储器中依次从低地址向高地址连续存放，x 的地址在 R15 中，实现“y=16*x−5;”的 4 条指令 I1～I4 如题 43 表所示，写出 ①～④ 处的内容。（4 分）</p><p>题 43 表</p><table><tbody><tr><td>I1</td><td><code>①    0000 0000 0000</code></td></tr><tr><td>I2</td><td><code>0000    ②    0010</code></td></tr><tr><td>I3</td><td><code>0100 0000    ③</code></td></tr><tr><td>I4</td><td><code>1111    ④</code></td></tr></tbody></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。",
+    "title": "混淆了 Best Fit 与 First Fit ",
+    "reason": "若把 $8\\text{MB}$ 错分到 $15\\text{MB}$ 中，才可能得到后续不同结果；这不符合 Best Fit 的分配规则。",
+    "trap": "不要把 Best Fit 和 First Fit 混淆。"
+  },
+  "C": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。C 是本题比较集中的错误选项。",
+    "title": "混淆了 Best Fit 与 First Fit ",
+    "reason": "$10\\text{MB}$ 只是“分配 $30\\text{MB}$ 后”暂时剩余的空闲分区大小，后续还经历了释放和再次分配，不能作为最终结果。",
+    "trap": "不要把 Best Fit 和 First Fit 混淆。"
+  },
+  "D": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。",
+    "title": "混淆了 Best Fit 与 First Fit ",
+    "reason": "释放 $15\\text{MB}$ 后确实出现过一块 $15\\text{MB}$ 空闲区，但随后又从该分区中分配了 $6\\text{MB}$，最终只剩 $9\\text{MB}$。",
+    "trap": "不要把 Best Fit 和 First Fit 混淆。"
+  }
+}

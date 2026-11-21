@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2014-第2题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>
+<p>将中缀表达式转换为后缀表达式的算法思想如下：</p>
+<p>初始化一个 <strong>操作符栈</strong>，从左向右开始扫描中缀表达式；</p>
+<ul>
+<li>遇到数字时，加入后缀表达式；</li>
+<li>遇到运算符时：
+<ul>
+<li>若为 <code>（</code>，入栈；</li>
+<li>若为 <code>）</code>，则依次把栈中的运算符加入后缀表达式中，直到出现 <code>（</code>，从栈中删除 <code>（</code>；</li>
+<li>若为除括号外的其他运算符
+<ul>
+<li>当其 <strong>优先级</strong> 高于除 <code>（</code> 以外的栈顶运算符时，直接入栈；</li>
+<li>否则从栈顶开始，依次弹出 <strong>优先级</strong> 高于或等于当前运算符的运算符，直到遇到 <strong>优先级</strong> 更低的运算符或左括号为止。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>以中序表达式 <code>a/b+(c*d-e*f)/g</code> 为例，可以通过如下步骤将其转换为后续表达式：</p>
+<table class="table td-initial">
+<thead>
+<tr>
+<th style="text-align:center">待处理序列</th>
+<th style="text-align:center">栈</th>
+<th style="text-align:center">后缀表达式</th>
+<th style="text-align:center">当前扫描元素</th>
+<th style="text-align:center">动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>a/b+(c*d-e*f)/g</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>a</code></td>
+<td style="text-align:center"><code>a</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/b+(c*d-e*f)/g</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>a</code></td>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center"><code>/</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>b+(c*d-e*f)/g</code></td>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center"><code>a</code></td>
+<td style="text-align:center"><code>b</code></td>
+<td style="text-align:center"><code>b</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>+(c*d-e*f)/g</code></td>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center"><code>ab</code></td>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center"><code>+</code> <strong>优先级</strong> 低于栈顶的 <code>/</code>，弹出 <code>/</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>+(c*d-e*f)/g</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>ab/</code></td>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center"><code>+</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>(c*d-e*f)/g</code></td>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center"><code>ab/</code></td>
+<td style="text-align:center"><code>(</code></td>
+<td style="text-align:center"><code>(</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>c*d-e*f)/g</code></td>
+<td style="text-align:center"><code>+(</code></td>
+<td style="text-align:center"><code>ab/</code></td>
+<td style="text-align:center"><code>c</code></td>
+<td style="text-align:center"><code>c</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*d-e*f)/g</code></td>
+<td style="text-align:center"><code>+(</code></td>
+<td style="text-align:center"><code>ab/c</code></td>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center">栈顶为 <code>(</code>，<code>*</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>d-e*f)/g</code></td>
+<td style="text-align:center"><code>+(*</code></td>
+<td style="text-align:center"><code>ab/c</code></td>
+<td style="text-align:center"><code>d</code></td>
+<td style="text-align:center"><code>d</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-e*f)/g</code></td>
+<td style="text-align:center"><code>+(*</code></td>
+<td style="text-align:center"><code>ab/cd</code></td>
+<td style="text-align:center"><code>-</code></td>
+<td style="text-align:center"><code>-</code> 优先级低于栈顶的 <code>*</code>，弹出 <code>*</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-e*f)/g</code></td>
+<td style="text-align:center"><code>+(</code></td>
+<td style="text-align:center"><code>ab/cd*</code></td>
+<td style="text-align:center"><code>-</code></td>
+<td style="text-align:center">栈顶为 <code>(</code>，<code>-</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>e*f)/g</code></td>
+<td style="text-align:center"><code>+(-</code></td>
+<td style="text-align:center"><code>ab/cd*</code></td>
+<td style="text-align:center"><code>e</code></td>
+<td style="text-align:center"><code>e</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*f)/g</code></td>
+<td style="text-align:center"><code>+(-</code></td>
+<td style="text-align:center"><code>ab/cd*e</code></td>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center"><code>*</code> <strong>优先级</strong> 高于栈顶的 <code>-</code>， <code>*</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>f)/g</code></td>
+<td style="text-align:center"><code>+(-*</code></td>
+<td style="text-align:center"><code>ab/cd*e</code></td>
+<td style="text-align:center"><code>f</code></td>
+<td style="text-align:center"><code>f</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>)/g</code></td>
+<td style="text-align:center"><code>+(-*</code></td>
+<td style="text-align:center"><code>ab/cd*ef</code></td>
+<td style="text-align:center"><code>)</code></td>
+<td style="text-align:center">把栈中 <code>(</code> 之前的符号加入表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/g</code></td>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center"><code>ab/cd*ef*-</code></td>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center"><code>/</code> <strong>优先级</strong> 高于栈顶的 <code>+</code>，<code>/</code> 入栈</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>g</code></td>
+<td style="text-align:center"><code>+/</code></td>
+<td style="text-align:center"><code>ab/cd*ef*-</code></td>
+<td style="text-align:center"><code>g</code></td>
+<td style="text-align:center"><code>g</code> 加入后缀表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>+/</code></td>
+<td style="text-align:center"><code>ab/cd*ef*-g</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">扫描完毕，运算符依次退栈加入表达式</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><code>ab/cd*ef*-g/+</code></td>
+<td style="text-align:center">完成</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2021-第35题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>本题考察的是 子网划分。根据题意，将 IP 网络划分为 3 个子网。其中一个是 192.168.9.128/26。可以简写成 x.x.x.10/26（其中 10 是 128 的二进制 1000 0000 的前两位，因为 26-24=2）。</p><ul><li>A 选项可以简写成 x.x.x.0/25;</li><li>B 选项可以简写成 x.x.x.00/26;</li><li>C 选项可以简写成 x.x.x.11/26;</li><li>D 选项可以简写成 x.x.x.110/27</li></ul><p>对于 A 和 C，可以组成 x.x.x.0/25、x.x.x.10/26、x.x.x.11/26 这样 3 个互不重叠的子网对于 D，可以组成 x.x.x.10/26、x.x.x.110/27、x.x.x.111/27 这样 3 个互不重叠的子网。但对于 B，要想将一个 IP 网络划分为几个互不重叠的子网，3 个是不够的，至少需要划分为 4 个子网：x.x.x.00/26、x.x.x.01/26、x.x.x.10/26、x.x.x.11/26。</p></div></div>
+
+
+</body>
+</html>

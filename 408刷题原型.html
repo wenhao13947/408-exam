@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>408 真题刷题原型</title>
+<link rel="stylesheet" href="html/vendor/katex/katex.min.css"/>
+<script defer src="html/vendor/katex/katex.min.js"></script>
+<script defer src="html/vendor/katex/auto-render.min.js"></script>
+<!--
+  408 真题刷题原型（离线可用，双击即可打开）
+  ================================================
+  数据加载：prototype-data/*.js 通过 <script src> 动态注入（file:// 下 fetch 会被浏览器拦截，script 标签不受限）
+    {year}.js        题目元数据 + 题干/选项/原解析（含 hintFirst/hintSecond 提示）
+    enhanced-{y}.js  增强解析 Markdown + 错误选项反馈
+    index.js         汇总索引 + P408.visual 可视化解析清单
+  可视化解析：iframe 加载 html/lessons-v2/visual-analysis-20261026/...（仅 2026 年部分题目）
+  KaTeX 离线包：html/vendor/katex/
+
+  微信小程序移植说明（结构一一对应）：
+  · 三个视图 = 小程序三个页面：pages/home、pages/year、pages/question
+  · prototype-data/*.js = 小程序本地 JSON/文本资源包
+  · localStorage 进度 = wx.setStorageSync('p408_progress_v1', ...)
+  · 题干 HTML = rich-text；增强解析 Markdown = towxml（含 KaTeX 公式）
+  · 视图全部为 flex 布局 + 简单样式，可平移为 WXML/WXSS（px 按 2rpx 缩放）
+-->
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #1c2333;
+  --muted: #6b7280;
+  --line: #e7eaf2;
+  --accent: #4f6af6;
+  --accent-soft: #eef1ff;
+  --ok: #16a34a;
+  --ok-soft: #e7f8ee;
+  --bad: #e04343;
+  --bad-soft: #fdecec;
+  --info-soft: #e8f1ff;
+  --radius: 16px;
+  --shadow: 0 1px 3px rgba(28, 35, 51, .06), 0 8px 24px rgba(28, 35, 51, .06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151d;
+    --card: #1c2130;
+    --text: #e8eaf2;
+    --muted: #9aa1b2;
+    --line: #2a3145;
+    --accent: #6f86ff;
+    --accent-soft: #232c4d;
+    --ok: #34d27b;
+    --ok-soft: #143024;
+    --bad: #f26d6d;
+    --bad-soft: #3a1c1f;
+    --info-soft: #1b2a45;
+    --shadow: 0 1px 3px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+#app { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ---- 顶栏 ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .back {
+  width: 34px; height: 34px; border: none; border-radius: 10px;
+  background: var(--card); color: var(--text); font-size: 18px; cursor: pointer;
+  box-shadow: var(--shadow); flex: none;
+}
+.topbar .title { flex: 1; font-size: 17px; font-weight: 700; text-align: center; }
+.topbar .sub { flex: none; font-size: 13px; color: var(--muted); min-width: 44px; text-align: right; }
+.page { flex: 1; padding: 16px 16px 32px; }
+
+/* ---- 首页 ---- */
+.hero { padding: 28px 6px 18px; }
+.hero h1 { margin: 0; font-size: 26px; letter-spacing: .5px; }
+.hero p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+.year-card {
+  display: block; width: 100%; text-align: left; border: none; cursor: pointer;
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px 18px; margin-bottom: 14px; color: var(--text);
+  font-family: inherit; transition: transform .08s ease;
+}
+.year-card:active { transform: scale(.98); }
+.year-card .row1 { display: flex; align-items: baseline; gap: 10px; }
+.year-card .year { font-size: 22px; font-weight: 800; color: var(--accent); }
+.year-card .meta { color: var(--muted); font-size: 12px; }
+.year-card .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+.chip {
+  font-size: 11px; padding: 2px 9px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.bar { height: 6px; border-radius: 999px; background: var(--line); margin-top: 12px; overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), #8b5cf6); transition: width .3s; }
+.year-card .prog { margin-top: 6px; font-size: 12px; color: var(--muted); }
+
+/* ---- 年份页 ---- */
+.summary { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+.summary .nums { display: flex; gap: 18px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.summary .nums b { color: var(--text); }
+.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 16px; }
+.tile {
+  aspect-ratio: 1; border: none; border-radius: 12px; cursor: pointer;
+  background: var(--card); color: var(--text); font-size: 15px; font-weight: 600;
+  font-family: inherit; box-shadow: var(--shadow); transition: transform .08s ease;
+}
+.tile:active { transform: scale(.92); }
+.tile.ok { background: var(--ok-soft); color: var(--ok); }
+.tile.bad { background: var(--bad-soft); color: var(--bad); }
+.tile.viewed { background: var(--info-soft); color: var(--accent); }
+.legend { display: flex; gap: 14px; margin-top: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+.link-btn {
+  display: block; margin: 22px auto 0; border: none; background: none; cursor: pointer;
+  color: var(--muted); font-size: 12px; text-decoration: underline; font-family: inherit;
+}
+
+/* ---- 答题页 ---- */
+.badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.badge {
+  font-size: 12px; padding: 3px 10px; border-radius: 999px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent);
+}
+.badge.gray { background: var(--card); color: var(--muted); box-shadow: var(--shadow); }
+.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+.stem :first-child { margin-top: 0; }
+.stem img { max-width: 100%; height: auto; }
+.stem pre { overflow-x: auto; background: var(--bg); padding: 10px; border-radius: 8px; font-size: 13px; }
+
+.options { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.opt {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 13px 15px; cursor: pointer; border: 2px solid transparent;
+  transition: border-color .12s, transform .08s;
+}
+.opt:active { transform: scale(.985); }
+.opt .label {
+  flex: none; width: 26px; height: 26px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg); font-weight: 700; font-size: 13px;
+}
+.opt.sel { border-color: var(--accent); }
+.opt.sel .label { background: var(--accent); color: #fff; }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.right .label { background: var(--ok); color: #fff; }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt.wrong .label { background: var(--bad); color: #fff; }
+.opt.locked { cursor: default; }
+.opt pre { margin: 0; overflow-x: auto; font-size: 13px; }
+
+.verdict { margin-top: 14px; border-radius: var(--radius); padding: 13px 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.verdict.ok { background: var(--ok-soft); color: var(--ok); }
+.verdict.bad { background: var(--bad-soft); color: var(--bad); }
+.verdict small { font-weight: 400; color: var(--muted); }
+
+/* 提示卡片 */
+.hint-card { margin-top: 14px; background: var(--accent-soft); border-radius: var(--radius); padding: 14px 16px; }
+.hint-card h4 { margin: 0 0 8px; font-size: 14px; color: var(--accent); }
+.hint-card p { margin: 0 0 8px; }
+.hint-more {
+  border: none; background: none; color: var(--accent); cursor: pointer;
+  font-size: 13px; font-weight: 700; padding: 0; font-family: inherit;
+}
+
+/* 错误选项反馈 */
+.wrong-feedback {
+  margin-top: 14px; background: var(--bad-soft); border-radius: var(--radius); padding: 13px 16px;
+}
+.wrong-feedback b { color: var(--bad); }
+.wrong-feedback .trap { margin-top: 6px; font-size: 13px; color: var(--muted); }
+
+.btns { display: flex; gap: 10px; margin-top: 16px; }
+.btn {
+  flex: 1; padding: 13px; border: none; border-radius: 14px; cursor: pointer;
+  font-size: 15px; font-weight: 700; font-family: inherit; transition: transform .08s;
+}
+.btn:active { transform: scale(.97); }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.primary:disabled { opacity: .4; cursor: default; }
+.btn.ghost { background: var(--card); color: var(--accent); box-shadow: var(--shadow); }
+
+/* 解析页签 */
+.analysis { margin-top: 14px; }
+.tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.tab {
+  padding: 7px 14px; border: none; border-radius: 10px; cursor: pointer;
+  background: var(--card); color: var(--muted); font-size: 13px; font-weight: 600;
+  font-family: inherit; box-shadow: var(--shadow);
+}
+.tab.active { background: var(--accent); color: #fff; }
+.tab:disabled { opacity: .4; cursor: default; }
+.tab .pane { display: none; }
+.analysis h4 { margin: 0 0 10px; font-size: 14px; color: var(--accent); }
+.analysis .kp { margin-bottom: 12px; }
+.analysis pre { overflow-x: auto; background: var(--bg); padding: 10px; border-radius: 8px; font-size: 13px; }
+.analysis img { max-width: 100%; }
+.stat-line { margin-top: 12px; font-size: 12px; color: var(--muted); }
+.enhanced-body h3 { margin: 14px 0 6px; font-size: 15px; }
+.enhanced-body blockquote {
+  border-left: 4px solid var(--ok); background: var(--ok-soft);
+  padding: 8px 12px; border-radius: 8px; margin: 10px 0; font-size: 14px;
+}
+.enhanced-body blockquote p { margin: 0; }
+.enhanced-body ul, .enhanced-body ol { margin: 8px 0; padding-left: 22px; }
+.enhanced-body hr { border: none; border-top: 1px solid var(--line); }
+.visual-frame { width: 100%; height: 620px; border: none; border-radius: 12px; background: #fff; }
+
+.navbar { display: flex; gap: 10px; margin-top: 18px; }
+.navbar .btn { flex: 1; background: var(--card); color: var(--text); box-shadow: var(--shadow); }
+.navbar .btn.primary { background: var(--accent); color: #fff; }
+.loading { text-align: center; color: var(--muted); padding: 60px 0; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+'use strict';
+/* 全局 */
+window.P408 = { index: null, years: {}, enhanced: {}, visual: {} };
+const app = document.getElementById('app');
+const PROG_KEY = 'p408_progress_v1';
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(PROG_KEY) || '{}'); } catch (e) { return {}; }
+}
+function saveProgress(p) { localStorage.setItem(PROG_KEY, JSON.stringify(p)); }
+function progOf(year, index) { return loadProgress()[year + '-' + index]; }
+
+function loadScript(src, cb) {
+  const s = document.createElement('script');
+  s.src = src;
+  s.onload = cb;
+  s.onerror = () => { app.innerHTML = '<div class="loading">数据文件缺失：' + src + '</div>'; };
+  document.head.appendChild(s);
+}
+
+function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+/* 轻量 Markdown 渲染（增强解析用，KaTeX 随后处理公式） */
+function mdToHtml(src) {
+  const lines = src.replace(/\r\n/g, '\n').split('\n');
+  const escAll = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const inline = s => escAll(s)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  const out = [];
+  let i = 0, inCode = false, code = [];
+  while (i < lines.length) {
+    const L = lines[i];
+    if (/^```/.test(L)) {
+      if (inCode) { out.push('<pre><code>' + escAll(code.join('\n')) + '</code></pre>'); code = []; inCode = false; }
+      else inCode = true;
+      i++; continue;
+    }
+    if (inCode) { code.push(L); i++; continue; }
+    if (/^#{1,3}\s/.test(L)) {
+      const text = L.replace(/^#+\s/, '');
+      out.push('<h3>' + inline(text) + '</h3>'); i++; continue;
+    }
+    if (/^>\s?/.test(L)) {
+      const buf = [];
+      while (i < lines.length && /^>\s?/.test(lines[i])) { buf.push(lines[i].replace(/^>\s?/, '')); i++; }
+      out.push('<blockquote><p>' + buf.map(inline).join('<br>') + '</p></blockquote>'); continue;
+    }
+    if (/^(-|\d+\.)\s/.test(L)) {
+      const isOl = /^\d+\.\s/.test(L); const items = [];
+      while (i < lines.length && /^(?:-|\d+\.)\s/.test(lines[i])) { items.push(lines[i].replace(/^(?:-|\d+\.)\s/, '')); i++; }
+      out.push((isOl ? '<ol>' : '<ul>') + items.map(t => '<li>' + inline(t) + '</li>').join('') + (isOl ? '</ol>' : '</ul>')); continue;
+    }
+    if (/^---+\s*$/.test(L)) { out.push('<hr>'); i++; continue; }
+    if (/^\s*$/.test(L)) { i++; continue; }
+    const buf = [];
+    while (i < lines.length && !/^\s*$/.test(lines[i]) &&
+           !/^(```|#{1,3}\s|>\s?|(-|\d+\.)\s|---+\s*$)/.test(lines[i])) { buf.push(lines[i]); i++; }
+    out.push('<p>' + buf.map(inline).join('<br>') + '</p>');
+  }
+  if (inCode && code.length) out.push('<pre><code>' + escAll(code.join('\n')) + '</code></pre>');
+  return out.join('');
+}
+
+/* KaTeX 公式渲染 */
+function tex(el) {
+  if (window.renderMathInElement) {
+    renderMathInElement(el, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+      ],
+      throwOnError: false,
+    });
+  }
+}
+
+/* 路由 */
+function go(hash) { location.hash = '#' + hash; }
+window.addEventListener('hashchange', render);
+function normHash() { return location.hash.replace(/^[#\/]+/, ''); }
+
+function render() {
+  const parts = normHash().split('/').filter(Boolean);
+  if (parts[0] === 'y' && parts[1] && parts[2] === 'q') return renderQuestion(+parts[1], +parts[3]);
+  if (parts[0] === 'y' && parts[1]) return renderYear(+parts[1]);
+  renderHome();
+}
+
+/* ---- 首页：年度列表 ---- */
+function renderHome() {
+  if (!P408.index) return loadScript('prototype-data/index.js', render);
+  const prog = loadProgress();
+  const rows = P408.index.years.map(y => {
+    let doneN = 0, okN = 0;
+    for (let i = 1; i <= y.count; i++) {
+      const p = prog[y.year + '-' + i];
+      if (p) { doneN++; if (p.correct) okN++; }
+    }
+    const pct = y.count ? Math.round(doneN / y.count * 100) : 0;
+    const chips = Object.entries(y.bySubject || {}).map(
+      ([s, c]) => `<span class="chip">${esc(s)} ${c}</span>`).join('');
+    return `<button class="year-card" onclick="go('/y/${y.year}')">
+      <div class="row1"><span class="year">${y.year}</span>
+        <span class="meta">${y.count} 题 · ${y.totalScore} 分</span></div>
+      <div class="chips">${chips}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="prog">已做 ${doneN}/${y.count} · 答对 ${okN} · 正确率 ${doneN ? Math.round(okN / doneN * 100) : 0}%</div>
+    </button>`;
+  }).join('');
+  app.innerHTML = `
+    <div class="page">
+      <div class="hero">
+        <h1>408 历年真题</h1>
+        <p>2009 – 2026 · ${P408.index.total} 题 · 离线可用 · 进度自动保存</p>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+/* ---- 年份页：题目网格 ---- */
+function renderYear(year) {
+  const y = P408.years[year];
+  if (!y) return loadScript('prototype-data/' + year + '.js', () => renderYear(year));
+  const prog = loadProgress();
+  let doneN = 0, okN = 0;
+  const tiles = [];
+  for (const q of y.questions) {
+    const p = prog[year + '-' + q.index];
+    let cls = '';
+    if (p) {
+      doneN++;
+      if (p.choice !== null && p.choice !== undefined && q.type === 1) {
+        if (p.correct) { cls = 'ok'; okN++; } else cls = 'bad';
+      } else cls = 'viewed';
+    }
+    tiles.push(`<button class="tile ${cls}" onclick="go('/y/${year}/q/${q.index}')">${q.index}</button>`);
+  }
+  const pct = Math.round(doneN / y.count * 100);
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back" onclick="go('/')">‹</button>
+      <div class="title">${year} 年真题</div>
+      <div class="sub">${y.count} 题 · ${y.totalScore} 分</div>
+    </div>
+    <div class="page">
+      <div class="summary">
+        <div class="bar"><i style="width:${pct}%"></i></div>
+        <div class="nums">
+          <span>已做 <b>${doneN}</b>/${y.count}</span>
+          <span>答对 <b>${okN}</b></span>
+          <span>正确率 <b>${doneN ? Math.round(okN / doneN * 100) : 0}%</b></span>
+        </div>
+      </div>
+      <div class="grid">${tiles.join('')}</div>
+      <div class="legend">
+        <span><i style="background:var(--card);box-shadow:var(--shadow)"></i>未做</span>
+        <span><i style="background:var(--ok-soft)"></i>答对</span>
+        <span><i style="background:var(--bad-soft)"></i>答错</span>
+        <span><i style="background:var(--info-soft)"></i>已看解析</span>
+      </div>
+      ${doneN ? '<button class="link-btn" onclick="resetYear(' + year + ')">清空 ' + year + ' 年进度</button>' : ''}
+    </div>`;
+}
+function resetYear(year) {
+  if (!confirm('确定清空 ' + year + ' 年的做题进度？')) return;
+  const p = loadProgress();
+  Object.keys(p).forEach(k => { if (k.startsWith(year + '-')) delete p[k]; });
+  saveProgress(p); render();
+}
+
+/* ---- 答题页 ---- */
+function ensureEnhanced(year, cb) {
+  if (P408.enhanced[year]) return cb();
+  loadScript('prototype-data/enhanced-' + year + '.js', cb);
+}
+
+function renderQuestion(year, index) {
+  const y = P408.years[year];
+  if (!y) return loadScript('prototype-data/' + year + '.js', () => renderQuestion(year, index));
+  ensureEnhanced(year, () => renderQuestionBody(year, index));
+}
+
+function curKey() {
+  const [, ys, , ns] = normHash().split('/');
+  return [+ys, +ns];
+}
+
+function renderQuestionBody(year, index) {
+  const y = P408.years[year];
+  const q = y.questions.find(x => x.index === index);
+  if (!q) { app.innerHTML = '<div class="loading">题目不存在</div>'; return; }
+  window._pick = null;
+
+  const saved = progOf(year, index) || {};
+  const choice = saved.choice !== undefined ? saved.choice : null;
+  const submitted = choice !== null;
+  const showAns = !!saved.viewed;
+  const hintLevel = saved.hintLevel || 0;
+  const isChoice = q.type === 1 && (q.options || []).length > 0;
+  const pos = y.questions.indexOf(q);
+  const prev = y.questions[pos - 1], next = y.questions[pos + 1];
+  const enh = P408.enhanced[year] || {};
+  const md = (enh.md || {})[String(index)] || '';
+  const wofMap = (enh.wof || {})[String(index)] || null;
+  const hasVisual = ((P408.visual || {})[String(year)] || []).includes(index);
+
+  const badges = `
+    <span class="badge">${esc(q.typeName)}</span>
+    <span class="badge gray">${q.score} 分</span>
+    ${q.subject ? `<span class="badge gray">${esc(q.subject)}</span>` : ''}`;
+
+  let optsHtml = '';
+  if (isChoice) {
+    const locked = submitted;
+    optsHtml = '<div class="options">' + q.options.map(o => {
+      let cls = 'opt';
+      if (!locked && o.label === choice) cls += ' sel';
+      if (locked && o.label === q.answer) cls += ' right';
+      if (locked && o.label === choice && choice !== q.answer) cls += ' wrong';
+      if (locked) cls += ' locked';
+      return `<div class="${cls}" data-label="${o.label}" onclick="pickOpt('${o.label}')">
+        <span class="label">${o.label}</span><span class="content">${o.html}</span></div>`;
+    }).join('') + '</div>';
+  }
+
+  let verdict = '';
+  if (submitted && isChoice) {
+    verdict = choice === q.answer
+      ? `<div class="verdict ok">✓ 回答正确 <small>你的答案 ${choice}</small></div>`
+      : `<div class="verdict bad">✗ 回答错误 <small>你的答案 ${choice} · 正确答案 ${q.answer}</small></div>`;
+  }
+
+  /* 提示区 */
+  let hintHtml = '';
+  if (q.hintFirst && hintLevel >= 1) {
+    hintHtml = `<div class="hint-card">
+      <h4>💡 思路提示</h4>
+      <p>${esc(q.hintFirst)}</p>
+      ${q.hintSecond && hintLevel >= 2 ? `<p><b>进一步提示：</b>${esc(q.hintSecond)}</p>` : ''}
+      ${q.hintSecond && hintLevel < 2
+        ? `<button class="hint-more" onclick="showMoreHint()">进一步提示 ▼</button>` : ''}
+    </div>`;
+  }
+
+  /* 答错反馈 */
+  let wrongFb = '';
+  if (submitted && isChoice && choice !== q.answer && wofMap && wofMap[choice]) {
+    const w = wofMap[choice];
+    wrongFb = `<div class="wrong-feedback">
+      <div><b>关于选项 ${choice}</b>：你可能${esc(w.title || '')}。${esc(w.reason || '')}</div>
+      ${w.trap ? `<div class="trap">⚠️ ${esc(w.trap)}</div>` : ''}
+    </div>`;
+  }
+
+  const btns = [];
+  if (isChoice && !submitted)
+    btns.push(`<button class="btn primary" id="submitBtn" ${choice ? '' : 'disabled'} onclick="submitAnswer()">提交答案</button>`);
+  if (q.hintFirst && hintLevel === 0 && !showAns)
+    btns.push(`<button class="btn ghost" onclick="showHint()">提示</button>`);
+  if (!showAns)
+    btns.push(`<button class="btn ghost" onclick="viewAnalysis(${submitted})">查看答案与解析</button>`);
+
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back" onclick="go('/y/${year}')">‹</button>
+      <div class="title">${year} · 第 ${index} 题</div>
+      <div class="sub">${pos + 1}/${y.count}</div>
+    </div>
+    <div class="page">
+      <div class="badges">${badges}</div>
+      <div class="card"><div class="stem">${q.stemHtml}</div></div>
+      ${optsHtml}
+      ${verdict}
+      ${hintHtml}
+      ${wrongFb}
+      ${btns.length ? `<div class="btns">${btns.join('')}</div>` : ''}
+      <div class="analysis card" id="analysis" style="display:${showAns ? 'block' : 'none'}">
+        <div class="tabs">
+          <button class="tab active" id="tabBtn-original" onclick="switchTab('original')">原解析</button>
+          <button class="tab" id="tabBtn-enhanced" onclick="switchTab('enhanced')">增强解析</button>
+          ${hasVisual ? `<button class="tab" id="tabBtn-visual" onclick="switchTab('visual')">可视化解析</button>` : ''}
+        </div>
+        <div id="tabContent"></div>
+      </div>
+      <div class="navbar">
+        <button class="btn" ${prev ? `onclick="go('/y/${year}/q/${prev.index}')"` : 'disabled'}>‹ 上一题</button>
+        <button class="btn primary" ${next ? `onclick="go('/y/${year}/q/${next.index}')"` : 'disabled'}>下一题 ›</button>
+      </div>
+    </div>`;
+
+  if (showAns) switchTab('original');
+}
+
+/* 解析页签切换 */
+function switchTab(tab) {
+  const [year, index] = curKey();
+  const y = P408.years[year];
+  const q = y.questions.find(x => x.index === index);
+  const box = document.getElementById('tabContent');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('tabBtn-' + tab);
+  if (btn) btn.classList.add('active');
+  box.style.opacity = '.5';
+  setTimeout(() => {  // 让点击反馈先渲染
+    if (tab === 'original') {
+      const enh = P408.enhanced[year] || {};
+      box.innerHTML = `
+        ${q.knowledgePoints && q.knowledgePoints.length
+          ? `<div class="kp chips">${q.knowledgePoints.map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>` : ''}
+        ${q.answerHtml && q.type !== 1
+          ? `<div class="card" style="margin-bottom:10px;box-shadow:none;background:var(--bg)"><div class="stem">${q.answerHtml}</div></div>` : ''}
+        <div class="stem">${q.analysisHtml || '<p style="color:var(--muted)">暂无解析</p>'}</div>
+        ${q.stats && q.stats.avgDifficulty != null && q.stats.optionCounts && q.stats.optionCounts.A != null
+          ? `<div class="stat-line">全站统计：平均难度 ${q.stats.avgDifficulty} · 选项分布 A:${q.stats.optionCounts.A} B:${q.stats.optionCounts.B} C:${q.stats.optionCounts.C} D:${q.stats.optionCounts.D}</div>` : ''}`;
+    } else if (tab === 'enhanced') {
+      const md = ((P408.enhanced[year] || {}).md || {})[String(index)];
+      box.innerHTML = md
+        ? `<div class="enhanced-body stem">${mdToHtml(md)}</div>`
+        : '<p style="color:var(--muted)">该题暂时还没有增强解析，我们会在后续持续补充。</p>';
+      tex(box);
+    } else if (tab === 'visual') {
+      box.innerHTML = `<iframe class="visual-frame" src="html/lessons-v2/visual-analysis-20261026/${year}/${String(index).padStart(2, '0')}/index.html?embed=1"></iframe>`;
+    }
+    box.style.opacity = '1';
+  }, 30);
+}
+
+/* 交互：选择 / 提交 / 提示 / 解析 */
+function pickOpt(label) {
+  const saved = progOf(...curKey()) || {};
+  if (saved.choice !== undefined && saved.choice !== null) return; // 已提交锁定
+  document.querySelectorAll('.opt').forEach(el => el.classList.toggle('sel', el.dataset.label === label));
+  const btn = document.getElementById('submitBtn');
+  if (btn) btn.disabled = false;
+  window._pick = label;
+}
+function submitAnswer() {
+  const [year, index] = curKey();
+  const y = P408.years[year];
+  const q = y.questions.find(x => x.index === index);
+  const choice = window._pick;
+  if (!choice) return;
+  const p = loadProgress();
+  const old = p[year + '-' + index] || {};
+  p[year + '-' + index] = { choice, correct: choice === q.answer, viewed: old.viewed || false, hintLevel: old.hintLevel || 0, t: Date.now() };
+  saveProgress(p);
+  renderQuestionBody(year, index);
+}
+function showHint() {
+  const [year, index] = curKey();
+  const p = loadProgress();
+  const k = year + '-' + index;
+  p[k] = p[k] || { choice: null, correct: null, viewed: false, hintLevel: 0, t: Date.now() };
+  p[k].hintLevel = 1;
+  saveProgress(p);
+  renderQuestionBody(year, index);
+}
+function showMoreHint() {
+  const [year, index] = curKey();
+  const p = loadProgress();
+  p[year + '-' + index].hintLevel = 2;
+  saveProgress(p);
+  renderQuestionBody(year, index);
+}
+function viewAnalysis(submitted) {
+  const [year, index] = curKey();
+  const p = loadProgress();
+  const k = year + '-' + index;
+  p[k] = p[k] || { choice: null, correct: null, viewed: true, hintLevel: 0, t: Date.now() };
+  p[k].viewed = true;
+  saveProgress(p);
+  if (!submitted) window._pick = null;
+  renderQuestionBody(year, index);
+}
+
+render();
+</script>
+</body>
+</html>

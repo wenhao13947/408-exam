@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2023-第39题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>题目给的主机 168.16.84.24/20 用二进制展开可以得到：168.16.0101 0100.24 可以看到，
+网络前缀为前 20 位，主机号为后 12 位。最小可分配地址是主机号为 1 的情况，可以得到最小
+可分配地址为 168.16.0101 0000.1 = 168.16.80.1。最大可分配地址是广播地址减 1 的情况，可以
+得到最大可分配地址为 168.16.0101 1111.254 = 168.16.95.254。答案选择 B 选项。
+</div></div>
+
+
+</body>
+</html>

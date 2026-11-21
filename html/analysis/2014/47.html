@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2014-第47题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><p>这是生产者-消费者问题的变形。缓冲区容量为 1000，初始为空；同时要求一个消费者连续取出 10 件产品期间，其他消费者不能取产品。</p><p>设置信号量如下：</p><ul><li><code>consumer_mutex</code>：控制消费者以 10 次取产品为一个周期互斥，初值为 1。</li><li><code>buffer_mutex</code>：控制进程互斥访问环形缓冲区，初值为 1。</li><li><code>empty</code>：缓冲区空位数，初值为 1000。</li><li><code>full</code>：缓冲区已有产品数，初值为 0。</li></ul><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4" tabindex="0"><code class="language-c" data-lang="c">semaphore consumer_mutex = 1;
+semaphore buffer_mutex = 1;
+semaphore empty = 1000;
+semaphore full = 0;
+
+Producer() {
+    while (1) {
+        生产产品;
+        P(empty);
+        P(buffer_mutex);
+        将产品放入缓冲区;
+        V(buffer_mutex);
+        V(full);
+    }
+}
+
+Consumer() {
+    while (1) {
+        P(consumer_mutex);
+        for (int i = 0; i &lt; 10; i++) {
+            P(full);
+            P(buffer_mutex);
+            从缓冲区取出产品;
+            V(buffer_mutex);
+            V(empty);
+            消费产品;
+        }
+        V(consumer_mutex);
+    }
+}</code></pre></div><p>说明：生产产品本身不访问共享缓冲区，可以放在 <code>P(empty)</code> 之前；真正需要等待空位的是“放入缓冲区”这一步。</p></div></div>
+
+
+</body>
+</html>

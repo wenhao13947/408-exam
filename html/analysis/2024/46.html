@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2024-第46题-解析</title>
+<link href="../../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="content"><div class="analysis-content">
+<p>（1）是。C1 向共享缓冲区 B 写入数据，若 P1 和 P2 都需要执行 C1，两进程必须互斥，因此实现 C1 的代码是临界区。</p>
+<p>（2）B 初始为空，P1 只执行一次 C1，P2 只执行一次 C2。只需一个初值为 0 的同步信号量 S，保证先写入、后读出。两个操作不会并发执行，无需另设互斥信号量。</p>
+<pre><code>semaphore S = 0;
+
+P1: C1; signal(S);
+P2: wait(S); C2;</code></pre>
+<p>（3）B 初始非空，P1 和 P2 各执行一次 C3。只需一个初值为 1 的互斥信号量 mutex，使两进程对 B 的修改不能同时进行。</p>
+<pre><code>semaphore mutex = 1;
+
+P1: wait(mutex); C3; signal(mutex);
+P2: wait(mutex); C3; signal(mutex);</code></pre>
+</div></div>
+</body>
+</html>

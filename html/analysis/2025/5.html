@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2025-第5题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>按照 哈夫曼树 构造：频次为 2, 3, 4, 6, 8, 10, 11</p><ol><li>合并 2 + 3 = 5</li><li>合并 4 + 5 = 9</li><li>合并 6 + 8 = 14</li><li>合并 9 + 10 = 19</li><li>合并 11 + 14 = 25</li><li>合并 19 + 25 = 44 （根）</li></ol><p>可以得到以下二叉树：</p><pre tabindex="0"><code>        44
+      /    \
+    19      25
+   /  \    /  \
+  9    10 11  14
+ / \          / \
+4   5        6   8
+   / \
+  2   3
+</code></pre><p>编码长度不小于 3 的字符：2, 3, 4, 6, 8。一共有 5 个字符编码长度不小于 3，正确答案为 D。</p></div></div>
+
+
+</body>
+</html>

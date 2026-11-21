@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。A 是本题比较集中的错误选项。",
+    "title": "没有理解区分“收到对方 FIN 并回 ACK”对应的状态",
+    "reason": "CLOSE_WAIT：这是被动关闭方在收到对方 FIN 后、尚未发送自己 FIN 时的状态，不符合本题过程。",
+    "trap": "本题关键是区分“收到对方 FIN 并回 ACK”对应的状态。这个时刻是 TIME_WAIT，不是 CLOSE_WAIT。"
+  },
+  "C": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。C 也是本题比较常错的选项。",
+    "title": "没有理解区分“收到对方 FIN 并回 ACK”对应的状态",
+    "reason": "FIN_WAIT_1：主动关闭方刚发送 FIN 后的状态，不是题目所问的时刻。",
+    "trap": "本题关键是区分“收到对方 FIN 并回 ACK”对应的状态。这个时刻是 TIME_WAIT，不是 CLOSE_WAIT。"
+  },
+  "D": {
+    "crowdHint": "从全网作答情况来看，这道题属于中档题。D 也是本题比较常错的选项。",
+    "title": "没有理解区分“收到对方 FIN 并回 ACK”对应的状态",
+    "reason": "FIN_WAIT_2：主动关闭方收到对方对自己 FIN 的 ACK 后、等待对方 FIN 时的状态，也不符合题干。",
+    "trap": "本题关键是区分“收到对方 FIN 并回 ACK”对应的状态。这个时刻是 TIME_WAIT，不是 CLOSE_WAIT。"
+  }
+}

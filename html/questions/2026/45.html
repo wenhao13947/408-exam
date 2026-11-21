@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2026-第45题-题目</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content">
+<p>（本题 7 分）</p><p>某系统采用基于抢占式优先权（优先权值越大优先权越高）和时间片轮转的 CPU 调度算法，仅在时钟中断发生时才能抢占 CPU，时钟中断间隔时间为 10 ms。每当进程进入就绪队列时，其时间片大小均设置为 50 ms。进程因时间片用完而再次进入就绪队列时，若其优先权值大于 0，则优先权值减 1。进程因优先权低被抢占 CPU 而再次进入就绪队列时，其优先权值不变。优先权相同时，先进入就绪队列的进程先执行。假设系统中有 4 个进程 P1～P4，各进程的到达时刻、初始优先权值、所需的 CPU 执行时间如题 45 表所示。</p><div class="svg-wrapper"><img src="/static/assets/2026-outline/45.webp" alt="题 45 图" style="max-width:100%;height:auto;display:block" loading="lazy"></div><p>请回答下列问题。</p><p>（1）在忽略时钟中断处理及 CPU 调度时间开销的情况下，若将 10ms 时刻发生的时钟中断记为第一次时钟中断，且从此时开始进行 CPU 调度，则从 10ms 时刻开始到 4 个进程都运行结束为止，时钟中断和 CPU 调度各发生了多少次？第一次执行 P1、P3、P4 的时刻分别是什么？（5 分）</p><p>（2）若时间片由 50ms 改为 100ms，则 CPU 调度次数增加、不变还是减少？若时钟中断间隔时间由 10ms 改为 1ms，则系统开销增加、不变还是减少？（2 分）</p>
+</div>
+</body>
+</html>

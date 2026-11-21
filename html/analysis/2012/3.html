@@ -1,0 +1,15 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2012-第3题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>本题考察 双序列组合重建二叉树，前序序列和后序序列不能唯一确定一棵二叉树，但可以确定二叉树中结点的祖先关系：当两个结点的前序序列为 XY 与后序序列为 YX 时，则 X 为 Y 的祖先。考虑前序序列 a,e,b,d,c、后序序列 b,c,d,e,a 且，可知 a 为根结点，e 为 a 的孩子结点。此外，a 的孩子结点的前序序列 e,b,d,c、后序序列 b,c,d,e，可知 e 是 bcd 的祖先，故根结点的孩子结点只有 e。故选 A。</div></div>
+
+
+</body>
+</html>

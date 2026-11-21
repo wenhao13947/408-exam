@@ -1,0 +1,14 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2009-Question-31-analysis</title>
+<link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+<div class="content"><div class="analysis-content"><br/><p>符号链接 是一个单独的文件，创建时它的引用计数值为 1；建立 硬链接 时，源文件引用计数值加 1。删除文件时，删除操作 对于符号链接是不可见的，这并不影响文件系统，当以后再通过符号链接访问时，发现文件不存在，直接删除符号链接；但对于硬链接则不可以直接删除，引用计数值减 1, 若值不为 0, 则不能删除此文件，因为还有其他硬链接指向此文件。</p><p>当建立 F2 时，Fl 和 F2 的引用计数值都为 1。当再建立 F3 时，Fl 和 F3 的引用计数值就都变成了 2。当后来删除 Fl 时，F3 的引用计数值为 2-1 = 1, F2 的引用计数值 一直不变。</p></div></div>
+
+
+</body>
+</html>

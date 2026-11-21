@@ -1,0 +1,20 @@
+{
+  "A": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。",
+    "title": "混淆了TLB 命中、Cache 命中都与访问主存",
+    "reason": "0：错误。写回时在 Write Through 下必须写主存。",
+    "trap": "TLB 命中、Cache 命中都不等于访问主存。Write Through 的关键是写 Cache 时要同时写主存，所以写回阶段最少仍要 1 次主存访问。"
+  },
+  "C": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。C 是本题比较集中的错误选项。",
+    "title": "混淆了TLB 命中、Cache 命中都与访问主存",
+    "reason": "2：错误。题目求最少次数，不需要把 TLB 或 Cache 的访问都算作主存访问。",
+    "trap": "TLB 命中、Cache 命中都不等于访问主存。Write Through 的关键是写 Cache 时要同时写主存，所以写回阶段最少仍要 1 次主存访问。"
+  },
+  "D": {
+    "crowdHint": "从全网作答情况来看，这道题属于难题。",
+    "title": "混淆了TLB 命中、Cache 命中都与访问主存",
+    "reason": "3：错误。同样是把非主存访问混进去了，且不符合“至少”的最小值要求。",
+    "trap": "TLB 命中、Cache 命中都不等于访问主存。Write Through 的关键是写 Cache 时要同时写主存，所以写回阶段最少仍要 1 次主存访问。"
+  }
+}

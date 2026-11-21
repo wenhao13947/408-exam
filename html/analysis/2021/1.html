@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>2021-第1题-解析</title>
+
+<link href="../../css/style.css" rel="stylesheet"/></head>
+<body>
+<div class="content"><div class="analysis-content"><br/>删除头结点后一个结点的基本流程为 <code>q = h-&gt;next; h-&gt;next = q-&gt;next; free(q);</code>，即通过指针操作跳过下一个结点后删除该结点。
+由于题目中提到了该链表非空，所以可以确定 <code>q = h-&gt;next</code> 一定不为空。
+但是如果链表中只有一个结点的话，我们还需要在删除该结点后，将尾指针指向头结点的位置，即 <code>if (p == q) p = h;</code></div></div>
+
+
+</body>
+</html>

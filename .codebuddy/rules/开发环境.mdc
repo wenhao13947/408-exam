@@ -1,0 +1,10 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-11-23T08:43:25.054Z
+provider: 
+---
+
+1. 如果需要访问服务器，请使用ssh连接wenhao.vip的22端口，用户名root，密码问Wenhao1008611
+2. 数据库和nginx都放在docker容器内

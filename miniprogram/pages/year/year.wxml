@@ -1,0 +1,28 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="card muted">正在加载 {{year}} 年题目…</view>
+  <view wx:if="{{error}}" class="card error">加载失败：{{error}}</view>
+
+  <view class="card" wx:if="{{!loading && !error}}">
+    <view class="subheading">{{year}} 年度统计</view>
+    <view class="stat-row">
+      <view><view class="stat-num">{{done}}</view><view class="muted">已做</view></view>
+      <view><view class="stat-num">{{ok}}</view><view class="muted">答对</view></view>
+      <view><view class="stat-num">{{rate}}%</view><view class="muted">正确率</view></view>
+    </view>
+    <progress-bar done="{{done}}" count="{{questions.length}}" />
+  </view>
+
+  <view class="grid" wx:if="{{!loading && !error}}">
+    <view class="tile {{item.status}}" wx:for="{{questions}}" wx:key="index"
+          data-index="{{item.index}}" bindtap="goQuestion">{{item.index}}</view>
+  </view>
+
+  <view class="legend muted" wx:if="{{!loading && !error}}">
+    <text class="dot todo"></text>未做
+    <text class="dot right"></text>正确
+    <text class="dot wrong"></text>错误
+    <text class="dot viewed"></text>已看解析
+  </view>
+
+  <button class="btn clear" wx:if="{{done > 0}}" bindtap="clearYear">清空 {{year}} 年进度</button>
+</view>

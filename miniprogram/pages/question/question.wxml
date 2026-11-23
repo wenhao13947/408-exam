@@ -1,0 +1,75 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="card muted">正在加载第 {{index}} 题…</view>
+  <view wx:if="{{error}}" class="card error">加载失败：{{error}}</view>
+
+  <block wx:if="{{!loading && !error && q}}">
+    <view class="card">
+      <view class="badges">
+        <text class="badge">{{q.typeName}}</text>
+        <text class="badge">{{q.score}} 分</text>
+        <text class="badge" wx:if="{{q.subject}}">{{q.subject}}</text>
+      </view>
+      <view class="towxml stem"><towxml nodes="{{stemNodes}}" /></view>
+    </view>
+
+    <view class="options" wx:if="{{q.options.length > 0}}">
+      <view class="opt {{picked === opt.label ? 'sel' : ''}} {{submitted && opt.label === q.answer ? 'right' : ''}} {{submitted && picked === opt.label && opt.label !== q.answer ? 'wrong' : ''}}"
+            wx:for="{{q.options}}" wx:for-item="opt" wx:for-index="optIdx" wx:key="label"
+            data-label="{{opt.label}}" bindtap="pickOption">
+        <text class="opt-label">{{opt.label}}</text>
+        <view class="opt-content towxml"><towxml nodes="{{optionNodes[optIdx]}}" /></view>
+      </view>
+    </view>
+
+    <view class="verdict {{progress.correct ? 'ok' : 'bad'}}" wx:if="{{submitted}}">{{verdict}}</view>
+
+    <view class="hint-card" wx:if="{{hintLevel >= 1 && q.hintFirst && !showAns}}">
+      <view class="hint-title">思路提示</view>
+      <view>{{q.hintFirst}}</view>
+      <view wx:if="{{hintLevel >= 2 && q.hintSecond}}">进一步提示：{{q.hintSecond}}</view>
+      <button class="btn ghost" wx:if="{{q.hintSecond && hintLevel < 2}}" bindtap="showMoreHint">进一步提示</button>
+    </view>
+
+    <view class="wrong-feedback" wx:if="{{wof}}">
+      <view>关于选项 {{picked}}：你可能{{wof.title}}。{{wof.reason}}</view>
+      <view wx:if="{{wof.trap}}">注意：{{wof.trap}}</view>
+    </view>
+
+    <view class="btns" wx:if="{{!showAns}}">
+      <button class="btn primary" wx:if="{{!submitted}}" disabled="{{!picked}}" bindtap="submitAnswer">提交答案</button>
+      <button class="btn ghost" wx:if="{{q.hintFirst && hintLevel === 0}}" bindtap="showHint">提示</button>
+      <button class="btn ghost" bindtap="viewAnalysis">查看答案与解析</button>
+    </view>
+
+    <view class="card analysis" wx:if="{{showAns}}">
+      <view class="tabs">
+        <view class="tab {{activeTab === item.key ? 'active' : ''}}"
+              wx:for="{{tabs}}" wx:key="key" data-key="{{item.key}}" bindtap="switchTab">{{item.label}}</view>
+      </view>
+
+      <view wx:if="{{activeTab === 'original'}}">
+        <view class="chips" wx:if="{{q.knowledgePoints.length > 0}}">
+          <text class="badge" wx:for="{{q.knowledgePoints}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="towxml" wx:if="{{q.type !== 1 && answerNodes}}"><towxml nodes="{{answerNodes}}" /></view>
+        <view class="towxml"><towxml nodes="{{originalNodes}}" /></view>
+        <view class="muted" wx:if="{{q.stats && q.stats.avgDifficulty != null}}">
+          全站统计：平均难度 {{q.stats.avgDifficulty}} · 选项分布
+          A:{{q.stats.optionCounts.A}} B:{{q.stats.optionCounts.B}} C:{{q.stats.optionCounts.C}} D:{{q.stats.optionCounts.D}}
+        </view>
+      </view>
+
+      <view wx:if="{{activeTab === 'enhanced'}}" class="scroll-x">
+        <view class="towxml" wx:if="{{enhancedNodes}}"><towxml nodes="{{enhancedNodes}}" /></view>
+        <view class="muted" wx:else>该题暂时还没有增强解析。</view>
+      </view>
+
+      <view wx:if="{{activeTab === 'visual'}}" class="muted">{{visualTip}}</view>
+    </view>
+
+    <view class="navbar">
+      <button class="btn" wx:if="{{prevIndex}}" data-index="{{prevIndex}}" bindtap="goQuestion">‹ 上一题</button>
+      <button class="btn primary" wx:if="{{nextIndex}}" data-index="{{nextIndex}}" bindtap="goQuestion">下一题 ›</button>
+    </view>
+  </block>
+</view>

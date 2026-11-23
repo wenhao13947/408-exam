@@ -1,0 +1,25 @@
+.badges { margin-bottom: 16rpx; }
+.stem { font-size: 30rpx; line-height: 1.7; }
+.options { display: flex; flex-direction: column; gap: 16rpx; margin-bottom: 20rpx; }
+.opt {
+  display: flex; gap: 20rpx; align-items: flex-start;
+  background: #fff; border-radius: 24rpx; box-shadow: 0 2rpx 8rpx rgba(28,35,51,.08);
+  padding: 24rpx; border: 4rpx solid transparent;
+}
+.opt.sel { border-color: var(--accent); }
+.opt.right { border-color: var(--ok); background: #e7f8ee; }
+.opt.wrong { border-color: var(--bad); background: #fdecec; }
+.opt-label { flex: none; width: 48rpx; height: 48rpx; line-height: 48rpx; text-align: center; border-radius: 50%; background: var(--bg); font-weight: 700; }
+.opt-content { flex: 1; min-width: 0; }
+.verdict { border-radius: 20rpx; padding: 20rpx 24rpx; font-weight: 700; margin-bottom: 20rpx; }
+.verdict.ok { background: #e7f8ee; color: var(--ok); }
+.verdict.bad { background: #fdecec; color: var(--bad); }
+.hint-card, .wrong-feedback { background: var(--accent-soft); border-radius: 20rpx; padding: 20rpx 24rpx; margin-bottom: 20rpx; font-size: 26rpx; }
+.hint-title { font-weight: 700; color: var(--accent); margin-bottom: 8rpx; }
+.btns { display: flex; flex-wrap: wrap; gap: 16rpx; margin-bottom: 24rpx; }
+.analysis .tabs { display: flex; gap: 16rpx; margin-bottom: 20rpx; }
+.tab { padding: 12rpx 24rpx; border-radius: 999rpx; background: var(--bg); font-size: 26rpx; }
+.tab.active { background: var(--accent); color: #fff; }
+.chips { margin-bottom: 16rpx; }
+.navbar { display: flex; justify-content: space-between; gap: 16rpx; }
+.error { color: var(--bad); }

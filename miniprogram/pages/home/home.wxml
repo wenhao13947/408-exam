@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="brand">
+    <view class="brand-title">408 真题刷题</view>
+    <view class="muted">按年份练习，进度自动同步到服务端</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="card muted">正在加载题库索引…</view>
+  <view wx:if="{{error}}" class="card error">加载失败：{{error}}</view>
+
+  <view class="card" wx:if="{{!loading && !error}}">
+    <view class="subheading">累计进度</view>
+    <view class="stat-row">
+      <view><view class="stat-num">{{done}}</view><view class="muted">已做</view></view>
+      <view><view class="stat-num">{{ok}}</view><view class="muted">答对</view></view>
+      <view><view class="stat-num">{{rate}}%</view><view class="muted">正确率</view></view>
+    </view>
+    <progress-bar done="{{done}}" count="{{total}}" />
+  </view>
+
+  <view class="card year-card" wx:for="{{years}}" wx:key="year" data-year="{{item.year}}" bindtap="goYear">
+    <view class="year-head">
+      <view class="year-num">{{item.year}}</view>
+      <view class="muted">{{item.count}} 题 · {{item.totalScore}} 分</view>
+    </view>
+    <view class="subjects">
+      <text class="badge" wx:for="{{item.bySubjectArr}}" wx:for-item="s" wx:key="name">{{s.name}} {{s.count}}</text>
+    </view>
+    <progress-bar done="{{item.done}}" count="{{item.count}}" />
+  </view>
+
+  <view class="muted footer">共 {{total}} 题 · 数据来自本地题库迁移</view>
+</view>

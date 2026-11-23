@@ -1,0 +1,52 @@
+/* towxml 基础样式：必须先执行“构建 npm”生成 miniprogram_npm/towxml */
+@import "./miniprogram_npm/towxml/style/main.wxss";
+
+/* 全局样式：延续网页原型的蓝紫卡片风格，按 750rpx 基准适配 */
+page {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #1c2333;
+  --muted: #6b7280;
+  --line: #e7eaf2;
+  --accent: #4f6af6;
+  --accent-soft: #eef1ff;
+  --ok: #16a34a;
+  --bad: #e04343;
+  --radius: 24rpx;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.page { padding: 24rpx 24rpx 48rpx; }
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 2rpx 6rpx rgba(28, 35, 51, .06), 0 16rpx 40rpx rgba(28, 35, 51, .06);
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+.muted { color: var(--muted); font-size: 24rpx; }
+.badge {
+  display: inline-block; padding: 4rpx 16rpx; border-radius: 999rpx;
+  background: var(--accent-soft); color: var(--accent); font-size: 22rpx; margin-right: 12rpx;
+}
+
+/* 按钮：轻微点击缩放反馈 */
+.btn {
+  border: none; border-radius: 18rpx; padding: 18rpx 28rpx; font-size: 28rpx;
+  background: var(--card); color: var(--text); box-shadow: 0 2rpx 8rpx rgba(28,35,51,.08);
+}
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.ghost { background: var(--accent-soft); color: var(--accent); }
+.btn[disabled] { opacity: .5; }
+.btn:active { transform: scale(.98); }
+
+/* 长表格与公式横向滚动，避免超出卡片 */
+.scroll-x { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.katex-display, .katex { max-width: 100%; }
+.towxml table { border-collapse: collapse; width: 100%; min-width: 720rpx; font-size: 26rpx; }
+.towxml th, .towxml td { border: 1rpx solid var(--line); padding: 8rpx 12rpx; text-align: left; }
+.towxml img, .towxml svg { max-width: 100%; height: auto; }

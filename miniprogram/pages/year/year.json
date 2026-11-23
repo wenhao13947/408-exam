@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "年份题目",
+  "usingComponents": {
+    "progress-bar": "/components/progress-bar/progress-bar"
+  }
+}

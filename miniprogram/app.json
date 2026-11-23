@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/year/year",
+    "pages/question/question"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#4F6AF6",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "408 真题刷题",
+    "backgroundColor": "#F4F6FB",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

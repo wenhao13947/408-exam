@@ -1,0 +1,16 @@
+{
+  "description": "408 真题刷题微信小程序：参考 408刷题原型.html 移植",
+  "appid": "wxf07a6cf3c283a0aa",
+  "projectname": "p408-miniprogram",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "packNpmManually": false
+  },
+  "libVersion": "3.5.5"
+}

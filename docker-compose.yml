@@ -1,0 +1,32 @@
+services:
+  api:
+    build: ./server
+    container_name: p408-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      P408_DB_PATH: /app/data/questions.db
+    volumes:
+      - ./server/data:/app/data
+      - ./server/static:/app/static
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: p408-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ./nginx/acme:/var/www/p408/acme:ro
+      - ./server/static:/var/www/p408/static:ro
+      - ./html/static:/var/www/p408/html-static:ro
+      - ./html/image:/var/www/p408/html-image:ro
+    depends_on:
+      - api

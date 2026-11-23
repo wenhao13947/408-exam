@@ -1,0 +1,16 @@
+# 密钥与证书：绝不提交
+.env
+certs/
+
+# Python 缓存与本地虚拟环境
+__pycache__/
+*.pyc
+server/.venv/
+server/.token_secret_local
+
+# npm 构建产物
+node_modules/
+miniprogram_npm/
+
+# 迁移生成的数据库（运行 scripts/import_prototype_data.py 重新生成）
+server/data/questions.db

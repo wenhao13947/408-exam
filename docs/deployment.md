@@ -1,6 +1,41 @@
 # 部署说明（新手版）
 
-目标：在 `wenhao.vip` 服务器上用 Docker 跑起后端和 Nginx，让小程序能通过 HTTPS 访问接口。
+目标：在服务器上用 Docker 跑起后端，让小程序能通过 HTTPS 访问接口。
+
+## 实际部署记录（2026-11-24，已生效）
+
+服务器上已有 `wenhao-nginx` 容器占用 80/443，并已为 `408.wenhao.vip` 配置证书。因此**没有另起 Nginx**，而是复用现有站点：
+
+| 项目 | 实际值 |
+|---|---|
+| 接口基地址 | `https://408.wenhao.vip` |
+| 健康检查 | `https://408.wenhao.vip/api/health` |
+| API 容器 | `p408-api`（镜像 `p408-api:latest`，基于 `python:3.12-slim`） |
+| API 容器内端口 | 8000；宿主机 `127.0.0.1:8767` 仅用于调试 |
+| Nginx 代理 | `location /api/ { proxy_pass http://p408-api:8000; }` |
+| Docker 网络 | API 容器已加入 `backend_phone-control-network`，与 Nginx 同网 |
+| 项目目录 | `/root/projects/408mini` |
+| 静态图片 | `/MyDocument/Data/nginx/html/p408-api/`（挂载进 Nginx 容器的 `/usr/share/nginx/html/p408-api/`） |
+| Nginx 配置备份 | `/MyDocument/Data/nginx/conf/conf.d/408.conf.bak.p408-final` |
+
+验证结果：健康检查返回 `{"code":0,"data":{"status":"ok"}}`；年份接口返回 18 年 / 846 题；题目详情、进度接口正常；静态 SVG 返回 200。
+
+**鉴权已移除（2026-11-26）**：改为设备 ID 模式，不再需要 `WX_APPID` / `WX_APPSECRET` / `TOKEN_SECRET`。小程序请求头带 `X-Device-Id` 即可，不同设备进度隔离。登录接口 `/api/auth/login` 已删除。
+
+重新部署命令（修改代码后）：
+
+```bash
+cd /root/projects/408mini
+docker rm -f p408-api
+docker build -t p408-api:latest server
+docker run -d --name p408-api --restart unless-stopped -p 127.0.0.1:8767:8000 --env-file .env p408-api:latest
+docker network connect backend_phone-control-network p408-api 2>/dev/null || true
+curl -H 'X-Device-Id: test-device' https://408.wenhao.vip/api/health
+```
+
+小程序端需在微信公众平台把 request 合法域名设为 `https://408.wenhao.vip`。
+
+以下为通用部署方案（新建独立 Nginx 时参考），当前服务器未采用。
 
 ## 1. 一次性准备
 

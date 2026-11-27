@@ -1,5 +1,5 @@
-/* towxml 基础样式：必须先执行“构建 npm”生成 miniprogram_npm/towxml */
-@import "./miniprogram_npm/towxml/style/main.wxss";
+/* towxml 基础样式：来自本地 miniprogram/towxml 目录，无需构建 npm */
+@import "./towxml/style/main.wxss";
 
 /* 全局样式：延续网页原型的蓝紫卡片风格，按 750rpx 基准适配 */
 page {

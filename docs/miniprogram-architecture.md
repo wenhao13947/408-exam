@@ -69,7 +69,7 @@ sequenceDiagram
 | `miniprogram/utils/auth.js` | 登录与 token 管理 | 门卡管理器 |
 | `miniprogram/utils/progress.js` | 进度状态换算 | 统计员 |
 | `miniprogram/components/progress-bar` | 可复用进度条 | 通用零件 |
-| `miniprogram/package.json` | 声明 towxml 依赖 | 购物清单 |
+| `miniprogram/towxml/` | towxml 3.0.6 整包，本地渲染 HTML/Markdown，无需构建 npm | 翻译工具箱 |
 | `server/app/main.py` | 后端入口，注册接口 | 前台总机 |
 | `server/app/config.py` | 读取环境变量（密钥只在这里出现） | 保险柜说明书 |
 | `server/app/db.py` | 数据库连接与用户/进度表 | 仓库管理员 |
@@ -106,10 +106,10 @@ erDiagram
 ## 5. 安全边界
 
 - `appid` 可以写进 `project.config.json`，它不是密钥。
-- `appsecret` **只在服务器环境变量里**，后端调用微信 `code2session` 时使用；小程序代码、SQLite、文档里都没有它。
-- 服务器 root 密码不出现在任何文件里；部署时用 SSH 密钥或手工输入。
-- 所有进度接口的身份来自 token，不接受客户端传来的 `user_id`，避免改别人进度。
-- 日志只记录路径、状态码、耗时，不记录 token、openid、密钥。
+- 内部使用版本**不做登录鉴权**：每台设备本地生成一个随机 `deviceId`，通过请求头 `X-Device-Id` 传给后端，后端直接用它作为用户标识。
+- 不再使用 `appsecret`、`wx.login`、`code2session`、token；小程序和服务器上都没有这些密钥项。
+- 进度按设备隔离：不同设备 ID 的记录互不影响；同一设备卸载重装后若本地 ID 丢失，进度视为新设备。
+- 日志只记录路径、状态码、耗时，不记录设备 ID 原文。
 
 ## 6. 已知限制
 

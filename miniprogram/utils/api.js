@@ -1,11 +1,14 @@
-/* 统一请求封装：注入 token、解析统一返回结构、401 自动重登一次 */
+/* 统一请求封装：注入设备标识、解析统一返回结构。内部使用，不做登录鉴权。 */
 const appInstance = () => getApp();
 
-function request(path, method, data, needAuth = true, retried = false) {
+function request(path, method, data) {
   const app = appInstance();
   const url = app.globalData.apiBase + path;
-  const header = { 'content-type': 'application/json' };
-  if (needAuth && app.globalData.token) header.Authorization = 'Bearer ' + app.globalData.token;
+  const deviceId = app.globalData.deviceId || require('./auth.js').ensureDeviceId();
+  const header = {
+    'content-type': 'application/json',
+    'X-Device-Id': deviceId
+  };
 
   return new Promise((resolve, reject) => {
     wx.request({
@@ -16,15 +19,6 @@ function request(path, method, data, needAuth = true, retried = false) {
       timeout: 15000,
       success(res) {
         const body = res.data || {};
-        if (res.statusCode === 401 && needAuth && !retried) {
-          const auth = require('./auth.js');
-          auth.clearToken(app);
-          auth.ensureLogin(app)
-            .then(() => request(path, method, data, true, true))
-            .then(resolve)
-            .catch(reject);
-          return;
-        }
         if (res.statusCode >= 200 && res.statusCode < 300 && body.code === 0) {
           resolve(body.data);
         } else {
@@ -36,17 +30,15 @@ function request(path, method, data, needAuth = true, retried = false) {
   });
 }
 
-function get(path, data, needAuth = true) { return request(path, 'GET', data, needAuth); }
-function post(path, data, needAuth = true) { return request(path, 'POST', data, needAuth); }
+function get(path, data) { return request(path, 'GET', data); }
+function post(path, data) { return request(path, 'POST', data); }
 
-/* 业务接口 */
-function ensureReady() { return require('./auth.js').ensureLogin(appInstance()); }
-
-function getYears() { return ensureReady().then(() => get('/api/years')); }
-function getQuestions(year) { return ensureReady().then(() => get('/api/years/' + year + '/questions')); }
-function getQuestion(year, index) { return ensureReady().then(() => get('/api/questions/' + year + '/' + index)); }
-function getMyProgress() { return ensureReady().then(() => get('/api/progress')); }
-function getYearProgress(year) { return ensureReady().then(() => get('/api/progress/' + year)); }
+/* 业务接口：不再需要登录准备步骤 */
+function getYears() { return get('/api/years'); }
+function getQuestions(year) { return get('/api/years/' + year + '/questions'); }
+function getQuestion(year, index) { return get('/api/questions/' + year + '/' + index); }
+function getMyProgress() { return get('/api/progress'); }
+function getYearProgress(year) { return get('/api/progress/' + year); }
 function submitAnswer(year, index, choice) { return post('/api/progress/answer', { year, index, choice }); }
 function setHint(year, index, level) { return post('/api/progress/hint', { year, index, level }); }
 function viewAnalysis(year, index) { return post('/api/progress/view', { year, index }); }

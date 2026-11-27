@@ -1,15 +1,22 @@
-.badges { margin-bottom: 16rpx; }
-.stem { font-size: 30rpx; line-height: 1.7; }
-.options { display: flex; flex-direction: column; gap: 16rpx; margin-bottom: 20rpx; }
+/* 答题页整体收紧：卡片内边距与卡片间距 */
+.card { padding: 20rpx; margin-bottom: 16rpx; }
+
+.badges { margin-bottom: 12rpx; }
+.stem { font-size: 30rpx; line-height: 1.6; }
+/* 去掉 towxml 自带的大留白：顶部 padding、四周/底部 margin、段落上下 margin */
+.stem .h2w__main, .opt-content .h2w__main { margin: 0; padding-top: 0; }
+.stem .h2w__p, .opt-content .h2w__p { margin: 0; }
+
+.options { display: flex; flex-direction: column; gap: 12rpx; margin-bottom: 16rpx; }
 .opt {
-  display: flex; gap: 20rpx; align-items: flex-start;
-  background: #fff; border-radius: 24rpx; box-shadow: 0 2rpx 8rpx rgba(28,35,51,.08);
-  padding: 24rpx; border: 4rpx solid transparent;
+  display: flex; gap: 16rpx; align-items: flex-start;
+  background: #fff; border-radius: 20rpx; box-shadow: 0 2rpx 8rpx rgba(28,35,51,.08);
+  padding: 16rpx; border: 4rpx solid transparent;
 }
 .opt.sel { border-color: var(--accent); }
 .opt.right { border-color: var(--ok); background: #e7f8ee; }
 .opt.wrong { border-color: var(--bad); background: #fdecec; }
-.opt-label { flex: none; width: 48rpx; height: 48rpx; line-height: 48rpx; text-align: center; border-radius: 50%; background: var(--bg); font-weight: 700; }
+.opt-label { flex: none; width: 40rpx; height: 40rpx; line-height: 40rpx; text-align: center; border-radius: 50%; background: var(--bg); font-weight: 700; }
 .opt-content { flex: 1; min-width: 0; }
 .verdict { border-radius: 20rpx; padding: 20rpx 24rpx; font-weight: 700; margin-bottom: 20rpx; }
 .verdict.ok { background: #e7f8ee; color: var(--ok); }

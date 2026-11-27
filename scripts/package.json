@@ -1,0 +1,15 @@
+{
+  "name": "p408-formula-render",
+  "version": "1.0.0",
+  "private": true,
+  "description": "把增强解析里的 LaTeX 公式批量渲染为 PNG，供小程序端加载",
+  "scripts": {
+    "extract": "node build_formula_images.js",
+    "render": "node render_formulas.js",
+    "build": "npm run extract && npm run render"
+  },
+  "dependencies": {
+    "katex": "0.19.1",
+    "playwright-core": "1.65.1"
+  }
+}

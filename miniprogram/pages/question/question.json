@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "答题",
   "usingComponents": {
-    "towxml": "/miniprogram_npm/towxml/index"
+    "towxml": "/towxml/towxml"
   }
 }

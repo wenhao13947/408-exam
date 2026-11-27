@@ -1,6 +1,6 @@
 # 微信小程序迁移实施设计（2026-11-23）
 
-> 状态：实施中。本文件记录计划与实际实现的对应关系，以及偏差日志。
+> 状态：服务端已部署并验证（2026-11-24）；2026-11-26 按用户要求去掉鉴权，改为设备 ID 模式并重新部署。
 
 ## 1. 目的与背景
 
@@ -72,3 +72,8 @@ flowchart TD
 3. **迁移筛选变量笔误**：`enhanced-*.js` 筛选初版误用外层变量 `fn`，导致增强解析 0 条；已修正为 `f`，现为 846 条。
 4. **图片路径校验**：原型自带 `/static/questions/2023/38-official-diagram.png` 指向 html 目录而非迁移输出目录，校验脚本增加双路径回退，现图片引用 246 个、缺失 0。
 5. **code-reviewer 审查后修复**：移除 `TOKEN_SECRET` 弱默认值（漏配直接拒绝启动）；年份页改用后端 `hasOptions` 判断选择题，避免摘要无 `options` 时崩溃；迁移改为只重建题库表、保留用户进度；SVG content 正则兼容双引号；校验脚本同时检查 `/image/`；80 端口补 ACME 目录与 HTTPS 跳转；SQLite 增加 busy_timeout 与原子创建用户；提示接口返回实际层级并修复无历史时变量未定义；token 过期检查与 401 单次重试；错误反馈限定答错时显示；冒烟测试改用临时库；文档修正构建 npm 与验证命令。
+6. **服务器部署方式偏离原计划**：原计划用 `docker-compose.yml` 同时启动 API 与独立 Nginx。实际服务器已有 `wenhao-nginx` 占用 80/443，且已有 `408.wenhao.vip` 证书，因此改为只启动 `p408-api` 容器，并把 `/api/` 代理到该容器（加入 `backend_phone-control-network`，代理地址 `http://p408-api:8000`）。接口基地址为 `https://408.wenhao.vip`。`docker-compose.yml` 保留作为新环境部署参考。
+7. **代理地址修正**：初次配置写成 `proxy_pass http://127.0.0.1:8767`，在 Nginx 容器内指向自身导致 502；改为同网容器名 `p408-api:8000` 后公网健康检查通过。
+8. **appsecret 处理**：按安全约定未在服务器 `.env` 中填写 appsecret，登录接口需用户重置密钥后自行填入并重启容器；题库与进度接口已验证正常。
+9. **2026-11-26 去掉鉴权（用户要求）**：小程序请求地址 404 的直接原因是 `apiBase` 写成 `https://wenhao.vip`（实际为 `https://408.wenhao.vip`），且登录依赖未填写的 appsecret。用户明确要求内部使用不做鉴权，选择「每台设备独立进度」。实现：小程序启动时生成本地 `deviceId` 并通过 `X-Device-Id` 请求头发送；后端 `current_user` 改为读取该请求头，删除 `code2session`/token/`auth/login` 路由及相关环境变量；文档、冒烟测试同步更新。冒烟测试验证两台设备进度互不干扰。
+9. **towxml 接入方案重做（2026-11-26）**：原计划用 `package.json` 声明 `towxml@^4.0.0` + 开发者工具「构建 npm」，实际该版本在 npm 官方源不存在（最高 3.0.6），`npm install` 报 `ETARGET`，导致 `miniprogram_npm` 无法生成，开发者工具报组件找不到。进一步核对 3.0.6 包内容发现三个隐藏错误：组件入口是 `towxml.*` 而非 `index`、`parse` 类型只接受 `'markdown'` 而非 `'md'`、`index.js` 导出的是函数而非带 `.parse` 的对象；且包内 `decode.json` 用绝对路径 `/towxml/...` 要求整包放在 `miniprogram/towxml/`。实际改为本地目录接入：放置 `towxml@3.0.6` 到 `miniprogram/towxml/`，组件路径改 `/towxml/towxml`，`getParser()` 内包装导出函数为 `{ parse }`，类型改 `'markdown'`，样式改 `./towxml/style/main.wxss`，删除 package.json 依赖声明。详见 `docs/plans/2026-11-26-fix-towxml-component.md`。

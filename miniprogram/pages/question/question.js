@@ -1,11 +1,33 @@
 /* 答题页：题干、选项、提交、两级提示、解析页签与翻页 */
 const api = require('../../utils/api.js');
 
+/* 把后端返回内容里的根相对图片路径补全为完整 URL。
+   小程序会把 /static/... 当成包内文件而非网络图片，导致图不显示。 */
+function resolveStaticImages(html) {
+  if (!html) return html;
+  const app = getApp();
+  const base = app && app.globalData ? app.globalData.apiBase : '';
+  if (!base) return html;
+  // HTML 图片：同时兼容 src="/static/..." 与 src='/static/...'
+  let result = html.replace(/src=(["'])\/static\//g, function (match, quote) {
+    return 'src=' + quote + base + '/static/';
+  });
+  // 增强解析 markdown 图片：/data/enhanced-analysis/assets/YYYY/NN/original-analysis-N.svg
+  // 数据里这些文件从未落地，实际对应的是服务端抽取好的原解析 SVG
+  result = result.replace(/!\[([^\]]*)\]\(\/data\/enhanced-analysis\/assets\/(\d{4})\/(\d{1,2})\/original-analysis-(\d+)\.svg\)/g,
+    function (match, alt, year, index, n) {
+      const target = '/static/questions/' + year + '_' + parseInt(index, 10) + '_analysis_' + n + '.svg';
+      return '![' + alt + '](' + base + target + ')';
+    });
+  return result;
+}
+
 let towxmlParser = null;
 function getParser() {
   if (towxmlParser) return towxmlParser;
-  // 构建 npm 后由微信开发者工具生成 miniprogram_npm/towxml
-  towxmlParser = require('../../miniprogram_npm/towxml/index.js');
+  // towxml 3.x 的 index.js 直接导出解析函数，包装成 parse 方法以兼容现有调用
+  const toWxml = require('../../towxml/index.js');
+  towxmlParser = { parse: (str, type) => toWxml(str, type) };
   return towxmlParser;
 }
 
@@ -58,11 +80,11 @@ Page({
           q,
           enhanced: data.enhanced,
           progress,
-          stemNodes: parser.parse(q.stemHtml || '', 'html'),
-          optionNodes: (q.options || []).map(o => parser.parse(o.html || '', 'html')),
-          answerNodes: parser.parse(q.answerHtml || '', 'html'),
-          originalNodes: parser.parse(q.analysisHtml || '', 'html'),
-          enhancedNodes: parser.parse((data.enhanced && data.enhanced.md) || '', 'md'),
+          stemNodes: parser.parse(resolveStaticImages(q.stemHtml || ''), 'html'),
+          optionNodes: (q.options || []).map(o => parser.parse(resolveStaticImages(o.html || ''), 'html')),
+          answerNodes: parser.parse(resolveStaticImages(q.answerHtml || ''), 'html'),
+          originalNodes: parser.parse(resolveStaticImages(q.analysisHtml || ''), 'html'),
+          enhancedNodes: parser.parse(resolveStaticImages((data.enhanced && data.enhanced.md) || ''), 'markdown'),
           tabs,
           activeTab: 'original',
           hasVisual: !!data.hasVisual,

@@ -271,7 +271,11 @@ function esc(t) { const d = document.createElement('div'); d.textContent = t; re
 function mdToHtml(src) {
   const lines = src.replace(/\r\n/g, '\n').split('\n');
   const escAll = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const attr = s => s.replace(/"/g, '&quot;');
+  const safeImgUrl = u => /^https?:\/\//i.test(u) || !/^[a-z][a-z0-9+.-]*:/i.test(u);
   const inline = s => escAll(s)
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, url) =>
+      safeImgUrl(url) ? `<img src="${attr(url)}" alt="${attr(alt)}" loading="lazy">` : m)
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');

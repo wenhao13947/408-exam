@@ -2,8 +2,5 @@
   "name": "p408-miniprogram",
   "version": "1.0.0",
   "private": true,
-  "description": "towxml 依赖声明；使用微信开发者工具执行“构建 npm”后在 miniprogram_npm/ 生成可引用模块",
-  "dependencies": {
-    "towxml": "^4.0.0"
-  }
+  "description": "小程序依赖占位；towxml 已作为本地组件放在 towxml/ 目录，无需 npm 安装"
 }

@@ -30,6 +30,41 @@ def fix_src(html):
     return html
 
 
+def fix_src_url(src):
+    """把原解析 HTML 中的单个图片 URL 改写为本地相对路径"""
+    if not src:
+        return src
+    return fix_src('src="' + src + '"')[5:-1]
+
+
+# 增强解析 Markdown 里的源站图片引用：![alt](/data/enhanced-analysis/assets/YYYY/NN/original-analysis-M.ext)
+MD_IMG_RE = re.compile(
+    r'(!\[(?P<alt>[^\]]*)\]\()/data/enhanced-analysis/assets/'
+    r'(?P<year>\d{4})/(?P<q>\d{1,2})/original-analysis-(?P<n>\d+)\.(?P<ext>\w+)\)'
+)
+
+
+def fix_md(md, year):
+    """按素材实存路径改写增强解析中的图片引用；无素材时保持原样。"""
+    def repl(m):
+        y, q, n = m.group('year'), int(m.group('q')), int(m.group('n'))
+        if y != year:
+            return m.group(0)
+        srv = 'server/static/questions/' + y + '_' + str(q) + '_analysis_'
+        candidates = [srv + str(n - 1) + '.svg', srv + str(n) + '.svg']
+        orig = os.path.join(ROOT, 'html', 'analysis', y, str(q) + '.html')
+        if os.path.isfile(orig):
+            with open(orig, encoding='utf-8', errors='ignore') as fp:
+                srcs = re.findall(r'<img[^>]+src="([^"]+)"', fp.read())
+            if len(srcs) >= n:
+                candidates.append(fix_src_url(srcs[n - 1]))
+        for rel in candidates:
+            if rel and os.path.isfile(os.path.join(ROOT, rel)):
+                return '![' + m.group('alt') + '](' + rel + ')'
+        return m.group(0)
+    return MD_IMG_RE.sub(repl, md)
+
+
 def fix_question(q):
     q = dict(q)
     q['stemHtml'] = fix_src(q.get('stemHtml'))
@@ -88,7 +123,8 @@ def build_enhanced(year):
         for fn in sorted(os.listdir(ydir)):
             if fn.endswith('.md'):
                 idx = str(int(fn[:-3]))
-                md[idx] = open(os.path.join(ydir, fn), encoding='utf-8').read()
+                with open(os.path.join(ydir, fn), encoding='utf-8') as fp:
+                    md[idx] = fix_md(fp.read(), str(year))
     wdir = os.path.join(ea, 'wrong-option-feedback', str(year))
     if os.path.isdir(wdir):
         for fn in sorted(os.listdir(wdir)):

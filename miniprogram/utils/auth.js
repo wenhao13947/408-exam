@@ -1,61 +1,20 @@
-/* 登录态封装：wx.login -> 后端 code2session -> 自定义 token
- * 注意：appsecret 只存在于服务端环境变量，小程序端绝不保存。 */
-const TOKEN_KEY = 'p408_token_v1';
-const EXPIRE_KEY = 'p408_token_v1_expire';
+/* 设备标识管理：内部使用，不做登录鉴权。
+ * 每台设备首次打开时生成一个随机 ID 并持久化，后续请求用它区分进度。 */
+const DEVICE_KEY = 'p408_device_id_v1';
 
-function restoreToken(app) {
+function ensureDeviceId() {
   try {
-    const token = wx.getStorageSync(TOKEN_KEY) || '';
-    const expireAt = Number(wx.getStorageSync(EXPIRE_KEY) || 0);
-    if (token && expireAt && Date.now() < expireAt) {
-      app.globalData.token = token;
-    } else {
-      app.globalData.token = null;
-      clearToken(app);
-    }
+    const saved = wx.getStorageSync(DEVICE_KEY);
+    if (saved) return saved;
   } catch (e) {
-    app.globalData.token = null;
+    // 存储不可用时退回内存态，当前会话仍可用
   }
-}
-
-function saveToken(app, token, expireAt) {
-  app.globalData.token = token || null;
+  // 时间戳 + 随机串，保证同一时刻多台设备不冲突
+  const id = 'dev-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
   try {
-    wx.setStorageSync(TOKEN_KEY, token || '');
-    wx.setStorageSync(EXPIRE_KEY, expireAt || 0);
-  } catch (e) {
-    // 存储失败时保持内存态，不影响当前会话
-  }
-}
-
-function clearToken(app) {
-  app.globalData.token = null;
-  try {
-    wx.removeStorageSync(TOKEN_KEY);
-    wx.removeStorageSync(EXPIRE_KEY);
+    wx.setStorageSync(DEVICE_KEY, id);
   } catch (e) {}
+  return id;
 }
 
-/* 供 api.js 调用：确保有 token，没有则登录一次 */
-function ensureLogin(app) {
-  const api = require('./api.js');
-  if (app.globalData.token) return Promise.resolve(app.globalData.token);
-  return new Promise((resolve, reject) => {
-    wx.login({
-      success(res) {
-        if (!res.code) return reject(new Error('wx.login 未返回 code'));
-        api.post('/api/auth/login', { code: res.code }, false)
-          .then(data => {
-            const token = data && data.token;
-            if (!token) return reject(new Error('后端未返回 token'));
-            saveToken(app, token, data.expireAt);
-            resolve(token);
-          })
-          .catch(reject);
-      },
-      fail: reject
-    });
-  });
-}
-
-module.exports = { restoreToken, saveToken, clearToken, ensureLogin };
+module.exports = { ensureDeviceId };

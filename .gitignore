@@ -12,5 +12,8 @@ server/.token_secret_local
 node_modules/
 miniprogram_npm/
 
+# 公式渲染中间产物（最终 PNG 与 formula-map.json 需提交，供 Docker 镜像使用）
+scripts/.formula-build/
+
 # 迁移生成的数据库（运行 scripts/import_prototype_data.py 重新生成）
 server/data/questions.db
